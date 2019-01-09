@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="hh-report-window">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `hh-report-window`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class HhReportWindow extends Polymer.Element {
+      static get is() { return 'hh-report-window'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'hh-report-window'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(HhReportWindow.is, HhReportWindow);
+  </script>
+</dom-module>
