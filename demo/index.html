@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -13,18 +13,36 @@
     <link rel="import" href="../hh-report-window.html">
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      </style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
     </custom-style>
-  </head>
-  <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic hh-report-window demo</h3>
-      <demo-snippet>
+</head>
+<body>
+<div class="vertical-section-container centered" style="max-width: none;">
+    <h3>Basic hh-report demo</h3>
+    <demo-snippet>
         <template>
-          <hh-report-window></hh-report-window>
+            <style>
+                .container {
+                    display: flex;
+                    height: 1000px;
+                    width: 100%;
+                }
+                .container > div {
+                    width: calc(100% - 1000px);
+                    background-color: #1d1e25;
+                }
+
+                .container > hh-report-window {
+                    width: 1000px;
+                }
+            </style>
+            <div class="container">
+                <div></div>
+                <hh-report-window expand pin id="demo1_report-window"></hh-report-window>
+            </div>
         </template>
-      </demo-snippet>
-    </div>
-  </body>
+    </demo-snippet>
+</div>
+</body>
 </html>

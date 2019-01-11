@@ -2,7 +2,9 @@
   "name": "hh-report-window",
   "main": "hh-report-window.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "hh-report-image": "*",
+    "hh-reading-template": "*"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
@@ -11,5 +13,24 @@
   },
   "resolutions": {
     "polymer": "^2.0.0"
-  }
+  },
+  "homepage": "https://github.com/HealthHub-Project/hh-report-winodw",
+  "authors": [
+    "joohyukjung <joohyukjung@gmail.com>"
+  ],
+  "description": "",
+  "keywords": [
+    "report-window",
+    "polymer",
+    "healthhub"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }

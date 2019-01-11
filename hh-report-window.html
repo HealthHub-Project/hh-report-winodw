@@ -1,36 +1,373 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../vaadin-split-layout/vaadin-split-layout.html">-->
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<!--<link rel="import" href="../iron-icon/iron-icon.html">-->
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../vaadin-icons/vaadin-icons.html">
+<!--<link rel="import" href="../web-animations-js/web-animations.min.html">-->
+<!--<script src="../web-animations-js/web-animations.min.js"></script>-->
+<!--<link rel="import" href="../neon-animation/neon-animation-behavior.html">-->
+<!--<link rel="import" href="../neon-animation/neon-animation.html">-->
+<link rel="import" href="../hh-report-image/hh-report-image.html">
+<link rel="import" href="../hh-reading-template/hh-reading-template.html">
+
 
 <dom-module id="hh-report-window">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 400px;
+                height: 100%;
+                background-color: #2d333e;
+            }
 
-  <script>
-    /**
-     * `hh-report-window`
-     * 
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class HhReportWindow extends Polymer.Element {
-      static get is() { return 'hh-report-window'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'hh-report-window'
-          }
-        };
-      }
-    }
+            .container {
+                display: flex;
+                flex: 1 1;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+            }
 
-    window.customElements.define(HhReportWindow.is, HhReportWindow);
-  </script>
+            paper-tabs {
+                --paper-tabs-selection-bar: {
+                    border-bottom: 3px solid #0087cb;
+                    color: #2baab1;
+                };
+                --paper-tabs-content: {
+                    font-weight: bold;
+                    color: #aaaaaa;
+                    background-color: #252934;
+                    font-size: 13px;
+
+                };
+                box-shadow: 0px 3px 9px -2px #000000;
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                height: 30px;
+            }
+
+            paper-tabs paper-tab.iron-selected {
+                color: #2baab1;
+            }
+
+            iron-pages {
+                width: 100%;
+                height: calc(100% - 30px);
+                background-color: rgba(0, 0, 0, 0.15);
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+
+            .container-report-setting {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding-left: 10px;
+                padding-right: 5px;
+                background-color: #252934;
+                height: 24px;
+                font-weight: bold;
+                font-size: 12px;
+
+                box-shadow: 0px 3px 9px -2px #000000;
+            }
+
+            .report-setting-title {
+                color: grey;
+            }
+
+            .report-setting-patientInfo {
+                color: #aaa;
+            }
+
+            paper-icon-button {
+                width: 25px;
+                height: 100%;
+                padding: 5px;
+                color: #aaa;
+            }
+
+            paper-icon-button[active] {
+                color: #d9534f;
+            }
+
+            paper-icon-button:hover {
+                color: #0087cb;
+            }
+
+
+        </style>
+        <div class="container">
+            <div class="container-report-setting">
+                <div class="report-setting-title">
+                    Report window
+                </div>
+                <div class="report-setting-patientInfo">
+                    {{patientInfo}}
+                </div>
+                <div>
+                    <paper-icon-button id="btnPin" noink toggles icon="vaadin:pin" title="pin" on-click=""></paper-icon-button>
+                    <paper-icon-button id="btnExpand" noink toggles icon="vaadin:expand" title="pin" on-click="_expand"></paper-icon-button>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; width: 100%; height: 100%">
+                <div style="height: 400px; width: 100%; display: flex; justify-content: space-evenly;">
+                    <div id="div1" style="height: 385px; width: 380px; padding-top: 10px">
+                        <paper-tabs selected="{{selectedTop}}" noink>
+                            <paper-tab>Thumbnail</paper-tab>
+                            <paper-tab>Report Image</paper-tab>
+                            <paper-tab id="readingTemplateTab">Reading Template</paper-tab>
+                            <paper-tab id="clinicalInfoTab">Clinical Info</paper-tab>
+                        </paper-tabs>
+                        <iron-pages selected="{{selectedTop}}">
+                            <div style="height: 100%; width: 100%;">
+                                <hh-report-image style="height: 355px; width: 380px;"></hh-report-image>
+                            </div>
+                            <div style="height: 100%; width: 100%;">
+                            </div>
+                            <div id="readingTemplatePage" style="height: 100%">
+                                <hh-reading-template></hh-reading-template>
+                            </div>
+                            <div id="clinicalInfoPage">
+
+                            </div>
+                        </iron-pages>
+                    </div>
+                    <div id="div2" style="height: 385px; width: 250px; padding-top: 10px; display: flex; flex-direction: column;">
+                        <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                            Clinical Info
+                        </div>
+                        <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                        </div>
+                    </div>
+                    <div id="div3" style="height: 385px; width: 330px; padding-top: 10px; display: flex; flex-direction: column;">
+                        <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                            Reading Template
+                        </div>
+                        <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                            <hh-reading-template></hh-reading-template>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: calc(100% - 400px); width: 100%; display: flex;justify-content: space-evenly;">
+                    <div id="div4" style="height: calc(100% - 15px); width: 380px; padding-top: 5px">
+                        <paper-tabs selected="{{selectedBottomOld}}" noink>
+                            <paper-tab>All</paper-tab>
+                            <paper-tab>Same Modality</paper-tab>
+                            <paper-tab>Same BodyPart</paper-tab>
+                            <paper-tab>Custom</paper-tab>
+                        </paper-tabs>
+                        <iron-pages selected="{{selectedBottomOld}}">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </iron-pages>
+                    </div>
+                    <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
+                        <paper-tabs selected="{{selectedBottomNew}}" noink>
+                            <paper-tab>Report</paper-tab>
+                            <paper-tab>Structured Reporting</paper-tab>
+                            <paper-tab>Dictation</paper-tab>
+                            <paper-tab>Transcription</paper-tab>
+                        </paper-tabs>
+                        <iron-pages selected="{{selectedBottomNew}}">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </iron-pages>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </template>
+
+    <script>
+        /**
+         * `hh-report-window`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        (function () {
+                let parentWidth;
+
+                class HhReportWindow extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element) {
+                    static get is() {
+                        return 'hh-report-window';
+                    }
+
+                    ready() {
+                        super.ready();
+
+                        this.addEventListener('iron-resize', () => {
+                            this._onIronResize()
+                        });
+
+                        if (!this.expand) {
+                            this.$.div2.style.display = 'none';
+                            this.$.div3.style.display = 'none';
+                            this.$.div4.style.display = 'none';
+                            this.$.div1.style.width = 'calc(100% - 20px)';
+                            this.$.div5.style.width = 'calc(100% - 20px)';
+
+                            this.$.readingTemplateTab.style.display = 'block';
+                            this.$.readingTemplatePage.style.display = 'block';
+                            this.$.clinicalInfoTab.style.display = 'block';
+                            this.$.clinicalInfoPage.style.display = 'block';
+
+                        } else {
+                            this.$.div2.style.display = 'block';
+                            this.$.div3.style.display = 'block';
+                            this.$.div4.style.display = 'block';
+                            this.$.div1.style.width = '380px';
+                            this.$.div5.style.width = '590px';
+
+                            this.$.readingTemplateTab.style.display = 'none';
+                            this.$.readingTemplatePage.style.display = 'none';
+                            this.$.clinicalInfoTab.style.display = 'none';
+                            this.$.clinicalInfoPage.style.display = 'none';
+
+                            this.$.btnExpand.active = true;
+                        }
+
+                        if (!this.pin) {
+
+                        }
+                    }
+
+                    static get properties() {
+                        return {
+                            selectedTop: {
+                                type: String,
+                                value: 0
+                            },
+                            selectedBottomNew: {
+                                type: String,
+                                value: 0
+                            },
+                            selectedBottomOld: {
+                                type: String,
+                                value: 0
+                            },
+                            patientInfo: {
+                                type: String,
+                                value: "123456, 홍길동, M/30"
+                            },
+                            expand: {
+                                type: Boolean,
+                                value: false
+                            },
+                            pin: {
+                                type: Boolean,
+                                value: false
+                            }
+                        }
+                    }
+
+                    _onIronResize() {
+                        parentWidth = this.parentNode.offsetWidth;
+                    }
+
+                    _expand(e) {
+                        let selectedTop = this.selectedTop;
+                        this.selectedTop = null;
+
+                        let leftDiv = this.parentNode.querySelector('div');
+                        let rightDiv = this;
+
+                        let expandRightDiv = [
+                            {width: rightDiv.offsetWidth + 'px'},
+                            {width: '1000px'}
+                        ];
+
+                        let contractLeftDiv = [
+                            {width: (parentWidth - rightDiv.offsetWidth) + 'px'},
+                            {width: (parentWidth - 1000) + 'px'}
+                        ];
+
+                        let contractRightDiv = [
+                            {width: rightDiv.offsetWidth + 'px'},
+                            {width: '400px'}
+                        ];
+
+                        let expandLeftDiv = [
+                            {width: (parentWidth - rightDiv.offsetWidth) + 'px'},
+                            {width: (parentWidth - 400) + 'px'}
+                        ];
+
+                        let duration = 500;
+
+                        if (e.target.active) {
+                            let animation = rightDiv.animate(expandRightDiv, {
+                                duration: duration,
+                                fill: 'forwards'
+                            });
+
+                            animation.onfinish = () => {
+                                this.$.div2.style.display = 'block';
+                                this.$.div3.style.display = 'block';
+                                this.$.div4.style.display = 'block';
+                                this.$.div1.style.width = '380px';
+                                this.$.div5.style.width = '590px';
+
+                                this.$.readingTemplateTab.style.display = 'none';
+                                this.$.readingTemplatePage.style.display = 'none';
+                                this.$.clinicalInfoTab.style.display = 'none';
+                                this.$.clinicalInfoPage.style.display = 'none';
+
+                                if (selectedTop == 2 || selectedTop == 3) {
+                                    this.selectedTop = 0;
+                                } else {
+                                    this.selectedTop = selectedTop;
+                                }
+                            };
+
+                            leftDiv.animate(contractLeftDiv, {
+                                duration: duration,
+                                fill: 'forwards'
+                            });
+
+                        } else {
+                            this.$.readingTemplateTab.style.display = 'block';
+                            this.$.readingTemplatePage.style.display = 'block';
+                            this.$.clinicalInfoTab.style.display = 'block';
+                            this.$.clinicalInfoPage.style.display = 'block';
+
+                            this.$.div2.style.display = 'none';
+                            this.$.div3.style.display = 'none';
+                            this.$.div4.style.display = 'none';
+                            this.$.div1.style.width = 'calc(100% - 20px)';
+                            this.$.div5.style.width = 'calc(100% - 20px)';
+
+                            let animation = rightDiv.animate(contractRightDiv, {
+                                duration: duration,
+                                fill: 'forwards'
+                            });
+
+                            animation.onfinish = () => {
+                                this.selectedTop = selectedTop;
+                            };
+
+                            leftDiv.animate(expandLeftDiv, {
+                                duration: duration,
+                                fill: 'forwards'
+                            });
+                        }
+
+                    }
+                }
+
+                window.customElements.define(HhReportWindow.is, HhReportWindow);
+            }
+        )();
+    </script>
 </dom-module>
