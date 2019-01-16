@@ -4,7 +4,9 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "hh-report-image": "*",
-    "hh-reading-template": "*"
+    "hh-reading-template": "*",
+    "hh-clinical-info": "*",
+    "hh-thumbnail": "*"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

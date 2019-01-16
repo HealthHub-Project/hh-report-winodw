@@ -1,16 +1,13 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<!--<link rel="import" href="../vaadin-split-layout/vaadin-split-layout.html">-->
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
-<!--<link rel="import" href="../iron-icon/iron-icon.html">-->
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../vaadin-icons/vaadin-icons.html">
-<!--<link rel="import" href="../web-animations-js/web-animations.min.html">-->
-<!--<script src="../web-animations-js/web-animations.min.js"></script>-->
-<!--<link rel="import" href="../neon-animation/neon-animation-behavior.html">-->
-<!--<link rel="import" href="../neon-animation/neon-animation.html">-->
+
 <link rel="import" href="../hh-report-image/hh-report-image.html">
 <link rel="import" href="../hh-reading-template/hh-reading-template.html">
+<link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
+<link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
 
 
 <dom-module id="hh-report-window">
@@ -51,6 +48,10 @@
 
             paper-tabs paper-tab.iron-selected {
                 color: #2baab1;
+            }
+
+            paper-tabs paper-tab[disabled] {
+                color: #424242;
             }
 
             iron-pages {
@@ -125,15 +126,16 @@
                         </paper-tabs>
                         <iron-pages selected="{{selectedTop}}">
                             <div style="height: 100%; width: 100%;">
-                                <hh-report-image style="height: 355px; width: 380px;"></hh-report-image>
+                                <hh-thumbnail></hh-thumbnail>
                             </div>
                             <div style="height: 100%; width: 100%;">
+                                <hh-report-image style="height: 355px; width: 380px;"></hh-report-image>
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template></hh-reading-template>
                             </div>
                             <div id="clinicalInfoPage">
-
+                                <hh-clinical-info></hh-clinical-info>
                             </div>
                         </iron-pages>
                     </div>
@@ -142,6 +144,7 @@
                             Clinical Info
                         </div>
                         <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                            <hh-clinical-info></hh-clinical-info>
                         </div>
                     </div>
                     <div id="div3" style="height: 385px; width: 330px; padding-top: 10px; display: flex; flex-direction: column;">
@@ -159,7 +162,7 @@
                             <paper-tab>All</paper-tab>
                             <paper-tab>Same Modality</paper-tab>
                             <paper-tab>Same BodyPart</paper-tab>
-                            <paper-tab>Custom</paper-tab>
+                            <paper-tab disabled>Custom</paper-tab>
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomOld}}">
                             <div></div>
@@ -171,9 +174,9 @@
                     <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
                         <paper-tabs selected="{{selectedBottomNew}}" noink>
                             <paper-tab>Report</paper-tab>
-                            <paper-tab>Structured Reporting</paper-tab>
-                            <paper-tab>Dictation</paper-tab>
-                            <paper-tab>Transcription</paper-tab>
+                            <paper-tab disabled>Structured Reporting</paper-tab>
+                            <paper-tab disabled>Dictation</paper-tab>
+                            <paper-tab disabled>Transcription</paper-tab>
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomNew}}">
                             <div></div>
