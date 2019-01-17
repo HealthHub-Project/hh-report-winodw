@@ -124,12 +124,12 @@
                             <paper-tab id="readingTemplateTab">Reading Template</paper-tab>
                             <paper-tab id="clinicalInfoTab">Clinical Info</paper-tab>
                         </paper-tabs>
-                        <iron-pages selected="{{selectedTop}}">
+                        <iron-pages id="reportWindowPage" selected="{{selectedTop}}">
                             <div style="height: 100%; width: 100%;">
                                 <hh-thumbnail></hh-thumbnail>
                             </div>
-                            <div style="height: 100%; width: 100%;">
-                                <hh-report-image style="height: 355px; width: 380px;"></hh-report-image>
+                            <div class="paint-content" style="height: 100%; width: 100%;">
+                                <hh-report-image id="hhReportImage" style="height: 355px; width: 380px;"></hh-report-image>
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template></hh-reading-template>
@@ -245,6 +245,12 @@
                         if (!this.pin) {
 
                         }
+
+                        this.$.reportWindowPage.addEventListener('iron-select', e => {
+                            if(e.detail.item.className === "paint-content iron-selected") {
+                                this.$.hhReportImage.onLoadBody();
+                            }
+                        });
                     }
 
                     static get properties() {
