@@ -8,6 +8,7 @@
 <link rel="import" href="../hh-reading-template/hh-reading-template.html">
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
+<link rel="import" href="../hh-report/hh-report.html">
 
 
 <dom-module id="hh-report-window">
@@ -15,7 +16,7 @@
         <style>
             :host {
                 display: block;
-                width: 400px;
+                width: 470px;
                 height: 100%;
                 background-color: #2d333e;
             }
@@ -57,7 +58,7 @@
             iron-pages {
                 width: 100%;
                 height: calc(100% - 30px);
-                background-color: rgba(0, 0, 0, 0.15);
+                background-color: rgba(0, 0, 0, 0.10);
                 border-bottom-left-radius: 3px;
                 border-bottom-right-radius: 3px;
             }
@@ -134,7 +135,7 @@
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template></hh-reading-template>
                             </div>
-                            <div id="clinicalInfoPage">
+                            <div id="clinicalInfoPage" style="height: 100%">
                                 <hh-clinical-info></hh-clinical-info>
                             </div>
                         </iron-pages>
@@ -179,7 +180,9 @@
                             <paper-tab disabled>Transcription</paper-tab>
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomNew}}">
-                            <div></div>
+                            <div style="height: 100%; width: 100%;">
+                                <hh-report></hh-report>
+                            </div>
                             <div></div>
                             <div></div>
                             <div></div>
@@ -305,12 +308,12 @@
 
                         let contractRightDiv = [
                             {width: rightDiv.offsetWidth + 'px'},
-                            {width: '400px'}
+                            {width: '470px'}
                         ];
 
                         let expandLeftDiv = [
                             {width: (parentWidth - rightDiv.offsetWidth) + 'px'},
-                            {width: (parentWidth - 400) + 'px'}
+                            {width: (parentWidth - 470) + 'px'}
                         ];
 
                         let duration = 500;

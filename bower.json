@@ -6,7 +6,8 @@
     "hh-report-image": "*",
     "hh-reading-template": "*",
     "hh-clinical-info": "*",
-    "hh-thumbnail": "*"
+    "hh-thumbnail": "*",
+    "hh-report": "*"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
