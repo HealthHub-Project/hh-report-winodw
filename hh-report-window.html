@@ -136,7 +136,7 @@
                                 <hh-reading-template></hh-reading-template>
                             </div>
                             <div id="clinicalInfoPage" style="height: 100%">
-                                <hh-clinical-info></hh-clinical-info>
+                                <hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>
                             </div>
                         </iron-pages>
                     </div>
@@ -388,6 +388,16 @@
                                 });
                             }
                         }
+                    }
+
+                    getClinicalInfo(ccInfo) {
+                        this.$.hhClinicalInfo.getClinicalInfo(ccInfo);
+                        // this.$.hhClinicalInfoExpend.getClinicalInfo(ccInfo);
+                    }
+
+                    clearClinicalInfo() {
+                        this.$.hhClinicalInfo.clearClinicalInfo();
+                        // this.$.hhClinicalInfoExpend.clearClinicalInfo();
                     }
                 }
 
