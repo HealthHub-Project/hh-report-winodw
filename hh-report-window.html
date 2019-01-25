@@ -269,7 +269,7 @@
 
                         this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
                             let ccInfo = e.detail;
-                            this.setClinicalInfo(ccInfo);
+                            this.getClinicalInfo(ccInfo);
                         });
                     }
 
@@ -403,12 +403,12 @@
                         g_objId = id;
                     }
 
-                    getClinicalInfo(ccInfo) {
-                        this.$.hhClinicalInfo.getClinicalInfo(ccInfo);
-                        this.$.hhClinicalInfoExpend.getClinicalInfo(ccInfo);
+                    setClinicalInfo(ccInfo) {
+                        this.$.hhClinicalInfo.setClinicalInfo(ccInfo);
+                        this.$.hhClinicalInfoExpend.setClinicalInfo(ccInfo);
                     }
 
-                    setClinicalInfo(ccInfo) {
+                    getClinicalInfo(ccInfo) {
                         if((ccInfo === undefined || ccInfo === "")&& g_objId === undefined) {
                             g_message.msg = "Please Checked ClinicalInfo";
                             g_message.isErr = true;
