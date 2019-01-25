@@ -10,7 +10,6 @@
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
 <link rel="import" href="../hh-report/hh-report.html">
 
-
 <dom-module id="hh-report-window">
     <template>
         <style>
@@ -127,7 +126,7 @@
                         </paper-tabs>
                         <iron-pages id="reportWindowPage" selected="{{selectedTop}}">
                             <div style="height: 100%; width: 100%;">
-                                <hh-thumbnail></hh-thumbnail>
+                                <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
                             </div>
                             <div class="paint-content" style="height: 100%; width: 100%;">
                                 <hh-report-image id="hhReportImage" style="height: 355px; width: 100%;"></hh-report-image>
@@ -145,7 +144,7 @@
                             Clinical Info
                         </div>
                         <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-clinical-info></hh-clinical-info>
+                            <hh-clinical-info id="hhClinicalInfoExpend"></hh-clinical-info>
                         </div>
                     </div>
                     <div id="div3" style="height: 385px; width: 330px; padding-top: 10px; display: flex; flex-direction: column;">
@@ -205,6 +204,11 @@
          */
         (function () {
                 let parentWidth;
+                let g_objId;
+                let g_message = {
+                    msg: "",
+                    isErr: false
+                };
 
                 class HhReportWindow extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element) {
                     static get is() {
@@ -261,6 +265,11 @@
                             if(e.detail.item.className === "paint-content iron-selected") {
                                 this.$.hhReportImage.onLoadBody();
                             }
+                        });
+
+                        this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
+                            let ccInfo = e.detail;
+                            this.setClinicalInfo(ccInfo);
                         });
                     }
 
@@ -390,14 +399,29 @@
                         }
                     }
 
+                    getWorkListNewId(id) {
+                        g_objId = id;
+                    }
+
                     getClinicalInfo(ccInfo) {
                         this.$.hhClinicalInfo.getClinicalInfo(ccInfo);
-                        // this.$.hhClinicalInfoExpend.getClinicalInfo(ccInfo);
+                        this.$.hhClinicalInfoExpend.getClinicalInfo(ccInfo);
+                    }
+
+                    setClinicalInfo(ccInfo) {
+                        if((ccInfo === undefined || ccInfo === "")&& g_objId === undefined) {
+                            g_message.msg = "Please Checked ClinicalInfo";
+                            g_message.isErr = true;
+                            openToast(g_message);
+                        }
+                        else {
+                            setClinicalInfoById(g_objId, ccInfo);
+                        }
                     }
 
                     clearClinicalInfo() {
                         this.$.hhClinicalInfo.clearClinicalInfo();
-                        // this.$.hhClinicalInfoExpend.clearClinicalInfo();
+                        this.$.hhClinicalInfoExpend.clearClinicalInfo();
                     }
                 }
 
