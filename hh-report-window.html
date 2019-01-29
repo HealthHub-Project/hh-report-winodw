@@ -125,7 +125,7 @@
                             <paper-tab id="clinicalInfoTab">Clinical Info</paper-tab>
                         </paper-tabs>
                         <iron-pages id="reportWindowPage" selected="{{selectedTop}}">
-                            <div style="height: 100%; width: 100%;">
+                            <div class="thumbnail-content" style="height: 100%; width: 100%;">
                                 <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
                             </div>
                             <div class="paint-content" style="height: 100%; width: 100%;">
@@ -210,9 +210,16 @@
                     isErr: false
                 };
 
+                let _this;
+
                 class HhReportWindow extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element) {
                     static get is() {
                         return 'hh-report-window';
+                    }
+
+                    constructor() {
+                        super();
+                        _this = this;
                     }
 
                     ready() {
@@ -265,6 +272,18 @@
                             if(e.detail.item.className === "paint-content iron-selected") {
                                 this.$.hhReportImage.onLoadBody();
                             }
+
+                            if(g_objId !== undefined) {
+                                this.$.hhThumbnail.tabStartBody();
+                            }
+                        });
+
+                        this.$.hhThumbnail.addEventListener('toastEvent', function (e) {
+                            _this.dispatchEvent(new CustomEvent('toastEvent', e));
+                        });
+
+                        this.$.hhThumbnail.addEventListener('setSelectedSeriesInfoEvent', function (e) {
+                            _this.dispatchEvent(new CustomEvent('setSelectedSeriesInfoEvent', e));
                         });
 
                         this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
@@ -401,6 +420,10 @@
 
                     getWorkListNewId(id) {
                         g_objId = id;
+
+                        getExamInfo(id).then((resultThumbnail) => {
+                            this.$.hhThumbnail.setExambyId(id, resultThumbnail);
+                        });
                     }
 
                     setClinicalInfo(ccInfo) {
