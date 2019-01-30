@@ -9,6 +9,7 @@
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
 <link rel="import" href="../hh-report/hh-report.html">
+<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">
 
 <dom-module id="hh-report-window">
     <template>
@@ -132,7 +133,7 @@
                                 <hh-report-image id="hhReportImage" style="height: 355px; width: 100%;"></hh-report-image>
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
-                                <hh-reading-template></hh-reading-template>
+                                <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
                             </div>
                             <div id="clinicalInfoPage" style="height: 100%">
                                 <hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>
@@ -152,7 +153,7 @@
                             Reading Template
                         </div>
                         <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-reading-template></hh-reading-template>
+                            <hh-reading-template id="hhReadingTemplateExpand"></hh-reading-template>
                         </div>
                     </div>
                 </div>
@@ -165,7 +166,9 @@
                             <paper-tab disabled>Custom</paper-tab>
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomOld}}">
-                            <div></div>
+                            <div style="height: 100%; width: 100%">
+                                <hh-report-oldFilm></hh-report-oldFilm>
+                            </div>
                             <div></div>
                             <div></div>
                             <div></div>
@@ -445,6 +448,22 @@
                     clearClinicalInfo() {
                         this.$.hhClinicalInfo.clearClinicalInfo();
                         this.$.hhClinicalInfoExpend.clearClinicalInfo();
+                    }
+
+                    setOldFilmReport(){
+
+                    }
+
+                    setReadingTemplate(selectedNewFilm){
+                        console.log(selectedNewFilm);
+                    }
+
+                    saveReadingTemplate(){
+
+                    }
+
+                    updateReadingTemplate(){
+
                     }
                 }
 
