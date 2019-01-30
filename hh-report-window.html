@@ -293,6 +293,26 @@
                             let ccInfo = e.detail;
                             this.getClinicalInfo(ccInfo);
                         });
+
+                        // this.$.report.addEventListener('printOpenEvent', function () {
+                        //     _this.$.hhReportImage.getReportImage();
+                        // });
+                        //
+                        // this.$.report.addEventListener('saveOpinionEvent', function () {
+                        //     _this.$.hhReportImage.getStructImage();
+                        // });
+                        //
+                        // this.$.report.addEventListener('approveOpinionEvnet', function () {
+                        //     _this.$.hhReportImage.getStructImage();
+                        // });
+                        //
+                        // this.$.hhReportImage.addEventListener('setReportImageEvent', function (e) {
+                        //     _this.$.report.setReportImage(e.detail); // print에 뿌릴 reportImage
+                        // });
+                        //
+                        // this.$.hhReportImage.addEventListener('setStructImageEvent', function (e) {
+                        //     _this.$.report.setStructImage(e.detail); // db에 저장될 reportImage
+                        // });
                     }
 
                     static get properties() {
@@ -424,9 +444,17 @@
                     getWorkListNewId(id) {
                         g_objId = id;
 
-                        getExamInfo(id).then((resultThumbnail) => {
+                        getExamInfo(id).then( resultThumbnail => {
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
+
+                        getStructImageById(id).then( structImage => {
+                            _this.$.hhReportImage.setStructImage(structImage);
+                        } )
+                    }
+
+                    clearThumbnail() {
+                        this.$.hhThumbnail.clearThumbnail();
                     }
 
                     setClinicalInfo(ccInfo) {
