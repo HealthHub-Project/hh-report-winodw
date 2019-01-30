@@ -167,11 +167,15 @@
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomOld}}">
                             <div style="height: 100%; width: 100%">
-                                <hh-report-oldFilm></hh-report-oldFilm>
+                                <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
                             </div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                            <div style="height: 100%; width: 100%">
+                                <hh-report-oldFilm id="modalHhReportOldFilm"></hh-report-oldFilm>
+                            </div>
+                            <div style="height: 100%; width: 100%">
+                                <hh-report-oldFilm id="bodyHhReportOldFilm"></hh-report-oldFilm>
+                            </div>
+                            <div style="height: 100%; width: 100%"></div>
                         </iron-pages>
                     </div>
                     <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
@@ -246,8 +250,6 @@
                             this.$.readingTemplatePage.style.display = 'block';
                             this.$.clinicalInfoTab.style.display = 'block';
                             this.$.clinicalInfoPage.style.display = 'block';
-
-
 
                         } else {
                             this.style.width = '1000px';
@@ -462,6 +464,63 @@
                         this.$.hhClinicalInfoExpend.setClinicalInfo(ccInfo);
                     }
 
+                    setAllOldReportList(selectedRow){
+                        convertHyphen(selectedRow).then(rows => {
+                            getOldFilmWorklist(rows).then((result) => {
+                                let oldfilmList = new Array();
+                                for (let i = 0; i < result.length; i++) {
+                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
+                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    oldfilmList[i].finding = result[i].finding;
+                                    oldfilmList[i].conclusion = result[i].conclusion;
+                                    oldfilmList[i].recommendation = result[i].recommendation;
+                                }
+                                console.log(oldfilmList);
+                                this.$.allHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                            }, (err) => {
+                                console.log(err);
+                            });
+                        });
+                    }
+
+                    setModalOldReportList(selectedRow){
+                        convertHyphen(selectedRow).then(rows => {
+                            getOldFilmWorklist(rows).then((result) => {
+                                let oldfilmList = new Array();
+                                for(let i=0; i<result.length; i++){
+                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " "+ result[i].studyDtime;
+                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding+ "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    oldfilmList[i].finding = result[i].finding;
+                                    oldfilmList[i].conclusion= result[i].conclusion;
+                                    oldfilmList[i].recommendation = result[i].recommendation;
+                                }
+                                console.log(oldfilmList);
+                                this.$.modalHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                            }, (err) => {
+                                console.log(err);
+                            });
+                        });
+                    }
+
+                    setBodyOldReportList(selectedRow){
+                        convertHyphen(selectedRow).then(rows => {
+                            getOldFilmWorklist(rows).then((result) => {
+                                let oldfilmList = new Array();
+                                for(let i=0; i<result.length; i++){
+                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " "+ result[i].studyDtime;
+                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding+ "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    oldfilmList[i].finding = result[i].finding;
+                                    oldfilmList[i].conclusion= result[i].conclusion;
+                                    oldfilmList[i].recommendation = result[i].recommendation;
+                                }
+                                console.log(oldfilmList);
+                                this.$.bodyHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                            }, (err) => {
+                                console.log(err);
+                            });
+                        );
+                    }
+
                     getClinicalInfo(ccInfo) {
                         if((ccInfo === undefined || ccInfo === "")&& g_objId === undefined) {
                             g_message.msg = "Please Checked ClinicalInfo";
@@ -476,10 +535,6 @@
                     clearClinicalInfo() {
                         this.$.hhClinicalInfo.clearClinicalInfo();
                         this.$.hhClinicalInfoExpend.clearClinicalInfo();
-                    }
-
-                    setOldFilmReport(){
-
                     }
 
                     setReadingTemplate(selectedNewFilm){
