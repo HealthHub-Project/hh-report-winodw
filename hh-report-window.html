@@ -465,6 +465,14 @@
                     updateReadingTemplate(){
 
                     }
+
+                    setOpinion(opinion) {
+                        this.$.report.findings = opinion.findings;
+                        this.$.report.conclusion = opinion.conclusion;
+                        this.$.report.recommendation = opinion.recommendation;
+                        this.$.report.recommendation = opinion.recommendation;
+                        this.$.report.approver = opinion.radiologist;
+                    }
                 }
 
                 window.customElements.define(HhReportWindow.is, HhReportWindow);
