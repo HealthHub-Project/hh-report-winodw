@@ -451,6 +451,7 @@
                                     oldfilm.conclusion = result[i].conclusion;
                                     oldfilm.recommendation = result[i].recommendation;
                                     oldfilmList.push(oldfilm);
+                                    cnt++;
                                     if(cnt == result.length){
                                         console.log(oldfilmList);
                                         this.$.allHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
@@ -478,6 +479,7 @@
                                         oldfilm.conclusion = result[i].conclusion;
                                         oldfilm.recommendation = result[i].recommendation;
                                         oldfilmList.push(oldfilm);
+                                        cnt++;
                                         if(cnt == result.length){
                                             console.log(oldfilmList);
                                             this.$.modalHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
@@ -506,6 +508,7 @@
                                         oldfilm.conclusion = result[i].conclusion;
                                         oldfilm.recommendation = result[i].recommendation;
                                         oldfilmList.push(oldfilm);
+                                        cnt++;
                                         if(cnt == result.length){
                                             console.log(oldfilmList);
                                             this.$.bodyHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
