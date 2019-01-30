@@ -468,13 +468,17 @@
                         convertHyphen(selectedRow).then(rows => {
                             getOldFilmWorklist(rows).then((result) => {
                                 let oldfilmList = new Array();
+                                let oldfilm = new Object();
                                 let cnt = 0;
                                 for (let i = 0; i < result.length; i++) {
-                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                    oldfilmList[i].finding = result[i].finding;
-                                    oldfilmList[i].conclusion = result[i].conclusion;
-                                    oldfilmList[i].recommendation = result[i].recommendation;
+                                    let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
+                                    let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    oldfilm.title = title;
+                                    oldfilm.report = report;
+                                    oldfilm.finding = result[i].finding;
+                                    oldfilm.conclusion = result[i].conclusion;
+                                    oldfilm.recommendation = result[i].recommendation;
+                                    oldfilmList.push(oldfilm);
                                     if(cnt == result.length){
                                         console.log(oldfilmList);
                                         this.$.allHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
@@ -490,16 +494,22 @@
                         convertHyphen(selectedRow).then(rows => {
                             getOldFilmWorklist(rows).then((result) => {
                                 let oldfilmList = new Array();
-                                let cnt =0;
-                                for(let i=0; i<result.length; i++){
-                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " "+ result[i].studyDtime;
-                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding+ "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                    oldfilmList[i].finding = result[i].finding;
-                                    oldfilmList[i].conclusion= result[i].conclusion;
-                                    oldfilmList[i].recommendation = result[i].recommendation;
-                                    if(cnt == result.length){
-                                        console.log(oldfilmList);
-                                        // this.$.modalHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                                let oldfilm = new Object();
+                                let cnt = 0;
+                                for (let i = 0; i < result.length; i++) {
+                                    if(selectedRow.modality == result[i].modality){
+                                        let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
+                                        let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                        oldfilm.title = title;
+                                        oldfilm.report = report;
+                                        oldfilm.finding = result[i].finding;
+                                        oldfilm.conclusion = result[i].conclusion;
+                                        oldfilm.recommendation = result[i].recommendation;
+                                        oldfilmList.push(oldfilm);
+                                        if(cnt == result.length){
+                                            console.log(oldfilmList);
+                                            this.$.modalHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                                        }
                                     }
                                 }
                             }, (err) => {
@@ -512,16 +522,22 @@
                         convertHyphen(selectedRow).then(rows => {
                             getOldFilmWorklist(rows).then((result) => {
                                 let oldfilmList = new Array();
-                                let cnt =0;
-                                for(let i=0; i<result.length; i++){
-                                    oldfilmList[i].title = result[i].modality + " " + result[i].bodypart + " "+ result[i].studyDtime;
-                                    oldfilmList[i].report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding+ "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                    oldfilmList[i].finding = result[i].finding;
-                                    oldfilmList[i].conclusion= result[i].conclusion;
-                                    oldfilmList[i].recommendation = result[i].recommendation;
-                                    if(cnt == result.length){
-                                        console.log(oldfilmList);
-                                        // this.$.bodyHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                                let oldfilm = new Object();
+                                let cnt = 0;
+                                for (let i = 0; i < result.length; i++) {
+                                    if(selectedRow.bodypart == result[i].bodypart){
+                                        let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
+                                        let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                        oldfilm.title = title;
+                                        oldfilm.report = report;
+                                        oldfilm.finding = result[i].finding;
+                                        oldfilm.conclusion = result[i].conclusion;
+                                        oldfilm.recommendation = result[i].recommendation;
+                                        oldfilmList.push(oldfilm);
+                                        if(cnt == result.length){
+                                            console.log(oldfilmList);
+                                            this.$.bodyHhReportOldFilm.setOldFilmOpinionList(oldfilmList);
+                                        }
                                     }
                                 }
                             }, (err) => {
