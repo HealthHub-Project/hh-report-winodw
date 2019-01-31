@@ -236,6 +236,10 @@
                             this._onIronResize()
                         });
 
+                        this.$.report.addEventListener('btnClickEvent', (e) => {
+                            _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
+                        });
+
                         if (!this.expand) {
                             this.style.width = '470px';
                             this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 470px)';
