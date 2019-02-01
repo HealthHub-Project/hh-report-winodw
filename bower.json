@@ -3,12 +3,12 @@
   "main": "hh-report-window.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "hh-report-image": "*",
     "hh-reading-template": "*",
     "hh-clinical-info": "*",
     "hh-thumbnail": "*",
     "hh-report": "*",
-    "hh-report-oldfilm": "hh-report-oldFilm#*"
+    "hh-report-oldfilm": "hh-report-oldFilm#*",
+    "hh-image-report": "*"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
