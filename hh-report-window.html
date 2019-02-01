@@ -442,9 +442,9 @@
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
 
-                        // getStructImageById(id).then( structImage => {
-                        //     _this.$.hhImageReport.setStructImage(structImage);
-                        // } )
+                        getStructImageById(id).then( structImage => {
+                            _this.$.hhImageReport.setStructImage(structImage);
+                        } )
                     }
 
                     clearThumbnail() {
