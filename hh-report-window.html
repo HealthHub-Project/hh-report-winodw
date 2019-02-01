@@ -527,6 +527,10 @@
                         this.$.report.recommendation = opinion.recommendation;
                         this.$.report.approver = opinion.radiologist;
                     }
+
+                    expandingEvent(e){
+                        this.$.btnExpand.click();
+                    }
                 }
 
                 window.customElements.define(HhReportWindow.is, HhReportWindow);
