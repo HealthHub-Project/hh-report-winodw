@@ -4,7 +4,7 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../vaadin-icons/vaadin-icons.html">
 
-<link rel="import" href="../hh-report-image/hh-report-image.html">
+<link rel="import" href="../hh-image-report/hh-image-report.html">
 <link rel="import" href="../hh-reading-template/hh-reading-template.html">
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
@@ -130,7 +130,7 @@
                                 <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
                             </div>
                             <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-report-image id="hhReportImage" style="height: 355px; width: 100%;"></hh-report-image>
+                                <hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
@@ -279,7 +279,7 @@
 
                         this.$.reportWindowPage.addEventListener('iron-select', e => {
                             if(e.detail.item.className === "reading-content iron-selected") {
-                                this.$.hhReportImage.onLoadBody();
+                                this.$.hhImageReport.onLoadBody();
 
                                 if(g_objId !== undefined) {
                                     this.$.hhThumbnail.tabStartBody();
@@ -301,23 +301,23 @@
                         });
 
                         // this.$.report.addEventListener('printOpenEvent', function () {
-                        //     _this.$.hhReportImage.getReportImage();
+                        //     _this.$.hhImageReport.getImageReport();
                         // });
                         //
                         // this.$.report.addEventListener('saveOpinionEvent', function () {
-                        //     _this.$.hhReportImage.getStructImage();
+                        //     _this.$.hhImageReport.getStructImage();
                         // });
                         //
                         // this.$.report.addEventListener('approveOpinionEvnet', function () {
-                        //     _this.$.hhReportImage.getStructImage();
+                        //     _this.$.hhImageReport.getStructImage();
                         // });
                         //
-                        // this.$.hhReportImage.addEventListener('setReportImageEvent', function (e) {
-                        //     _this.$.report.setReportImage(e.detail); // print에 뿌릴 reportImage
+                        // this.$.hhImageReport.addEventListener('setImageReportEvent', function (e) {
+                        //     _this.$.report.setImageReport(e.detail); // print에 뿌릴 imageReport
                         // });
                         //
-                        // this.$.hhReportImage.addEventListener('setStructImageEvent', function (e) {
-                        //     _this.$.report.setStructImage(e.detail); // db에 저장될 reportImage
+                        // this.$.hhImageReport.addEventListener('setStructImageEvent', function (e) {
+                        //     _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
                         // });
                     }
 
@@ -455,7 +455,7 @@
                         });
 
                         getStructImageById(id).then( structImage => {
-                            _this.$.hhReportImage.setStructImage(structImage);
+                            _this.$.hhImageReport.setStructImage(structImage);
                         } )
                     }
 
