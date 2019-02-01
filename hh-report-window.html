@@ -130,7 +130,7 @@
                                 <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
                             </div>
                             <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>
+                                <!--<hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>-->
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
@@ -277,15 +277,15 @@
                             this.$.btnPin.active = true;
                         }
 
-                        this.$.reportWindowPage.addEventListener('iron-select', e => {
-                            if(e.detail.item.className === "reading-content iron-selected") {
-                                this.$.hhImageReport.onLoadBody();
-
-                                if(g_objId !== undefined) {
-                                    this.$.hhThumbnail.tabStartBody();
-                                }
-                            }
-                        });
+                        // this.$.reportWindowPage.addEventListener('iron-select', e => {
+                        //     if(e.detail.item.className === "reading-content iron-selected") {
+                        //         this.$.hhImageReport.onLoadBody();
+                        //
+                        //         if(g_objId !== undefined) {
+                        //             this.$.hhThumbnail.tabStartBody();
+                        //         }
+                        //     }
+                        // });
 
                         this.$.hhThumbnail.addEventListener('toastEvent', function (e) {
                             _this.dispatchEvent(new CustomEvent('toastEvent', e));
@@ -454,9 +454,9 @@
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
 
-                        getStructImageById(id).then( structImage => {
-                            _this.$.hhImageReport.setStructImage(structImage);
-                        } )
+                        // getStructImageById(id).then( structImage => {
+                        //     _this.$.hhImageReport.setStructImage(structImage);
+                        // } )
                     }
 
                     clearThumbnail() {
@@ -486,6 +486,7 @@
                                     cntAll++;
                                     if(cntAll == result.length){;
                                         this.$.allHhReportOldFilm.oldfilm = oldfilmList;
+                                        this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
                                     };
                                 }
                             }else{
@@ -531,6 +532,7 @@
                                             rmCnt++;
                                             if(rmCnt == oldfilmList.length){
                                                 this.$.modalHhReportOldFilm.oldfilm = resultList;
+                                                this.$.modalHhReportOldFilm.setOldFilmList(oldfilmList);
                                             }
                                         }
                                     };
@@ -579,6 +581,7 @@
                                             rbCnt++;
                                             if(rbCnt == oldfilmList.length){
                                                 this.$.bodyHhReportOldFilm.oldfilm = resultList;
+                                                this.$.bodyHhReportOldFilm.setOldFilmList(oldfilmList);
                                             }
                                         }
                                     };
