@@ -265,15 +265,15 @@
                             this.$.btnPin.active = true;
                         }
 
-                        // this.$.reportWindowPage.addEventListener('iron-select', e => {
-                        //     if(e.detail.item.className === "reading-content iron-selected") {
-                        //         this.$.hhImageReport.onLoadBody();
-                        //
-                        //         if(g_objId !== undefined) {
-                        //             this.$.hhThumbnail.tabStartBody();
-                        //         }
-                        //     }
-                        // });
+                        this.$.reportWindowPage.addEventListener('iron-select', e => {
+                            if(e.detail.item.className === "reading-content iron-selected") {
+                                this.$.hhImageReport.onLoadBody();
+
+                                if(g_objId !== undefined) {
+                                    this.$.hhThumbnail.tabStartBody();
+                                }
+                            }
+                        });
 
                         this.$.hhThumbnail.addEventListener('toastEvent', function (e) {
                             _this.dispatchEvent(new CustomEvent('toastEvent', e));
