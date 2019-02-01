@@ -130,7 +130,7 @@
                                 <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
                             </div>
                             <div class="reading-content" style="height: 100%; width: 100%;">
-                                <!--<hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>-->
+                                <hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
@@ -159,24 +159,12 @@
                 </div>
                 <div style="height: calc(100% - 400px); width: 100%; display: flex;justify-content: space-evenly;">
                     <div id="div4" style="height: calc(100% - 15px); width: 380px; padding-top: 5px">
-                        <paper-tabs selected="{{selectedBottomOld}}" noink>
-                            <paper-tab>All</paper-tab>
-                            <paper-tab>Same Modality</paper-tab>
-                            <paper-tab>Same BodyPart</paper-tab>
-                            <paper-tab disabled>Custom</paper-tab>
-                        </paper-tabs>
-                        <iron-pages selected="{{selectedBottomOld}}">
-                            <div style="height: 100%; width: 100%">
-                                <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
-                            </div>
-                            <div style="height: 100%; width: 100%">
-                                <hh-report-oldFilm id="modalHhReportOldFilm"></hh-report-oldFilm>
-                            </div>
-                            <div style="height: 100%; width: 100%">
-                                <hh-report-oldFilm id="bodyHhReportOldFilm"></hh-report-oldFilm>
-                            </div>
-                            <div style="height: 100%; width: 100%"></div>
-                        </iron-pages>
+                        <div style="height: 30px; display:flex; align-items: center; margin-bottom: 5px; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                            OldFIlm Report LIst
+                        </div>
+                        <div style="background-color: rgba(0,0,0,0.15); height: calc(100% - 35px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                            <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
+                        </div>
                     </div>
                     <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
                         <paper-tabs selected="{{selectedBottomNew}}" noink>
@@ -498,103 +486,6 @@
                                 oldfilm.conclusion = "";
                                 oldfilm.recommendation = "";
                                 this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                            }
-                        }, (err) => {
-                            console.log(err);
-                        });
-                    }
-
-                    setModalityOldReportList(selectedRow){
-                        getOldFilmWorklist(selectedRow).then((result) => {
-                            let oldfilmList = new Array();
-                            if(result.length > 0){
-                                let cntModal = 0;
-                                for (let i = 0; i < result.length; i++) {
-                                    if(result[i].modality == selectedRow.modality){
-                                        let oldfilm = new Object();
-                                        let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                        let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                        oldfilm.title = title;
-                                        oldfilm.report = report;
-                                        oldfilm.finding = result[i].finding;
-                                        oldfilm.conclusion = result[i].conclusion;
-                                        oldfilm.recommendation = result[i].recommendation;
-                                        oldfilmList[i] = oldfilm;
-                                    }
-                                    cntModal++;
-                                    if(cntModal == result.length){
-                                        let resultList = new Array();
-                                        let  rmCnt = 0;
-                                        for(let j=0; j<oldfilmList.length; j++){
-                                            if(oldfilmList[j]){
-                                                resultList.push(oldfilmList[j]);
-                                            }
-                                            rmCnt++;
-                                            if(rmCnt == oldfilmList.length){
-                                                this.$.modalHhReportOldFilm.oldfilm = resultList;
-                                                this.$.modalHhReportOldFilm.setOldFilmList(oldfilmList);
-                                            }
-                                        }
-                                    };
-                                }
-                            }else{
-                                let oldfilm = new Object();
-                                let oldfilmList = new Array();
-                                oldfilm.title = "";
-                                oldfilm.report = "";
-                                oldfilm.finding = "";
-                                oldfilm.conclusion = "";
-                                oldfilm.recommendation = "";
-                                this.$.modalHhReportOldFilm.oldfilm = oldfilmList;
-                            }
-                        }, (err) => {
-                            console.log(err);
-                        });
-                    }
-
-
-                    setBodypartOldReportList(selectedRow){
-                        getOldFilmWorklist(selectedRow).then((result) => {
-                            let oldfilmList = new Array();
-                            if(result.length > 0){
-                                let cntBody = 0;
-                                for (let i = 0; i < result.length; i++) {
-                                    if(result[i].bodypart == selectedRow.bodypart) {
-                                        let oldfilm = new Object();
-                                        let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                        let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                        oldfilm.title = title;
-                                        oldfilm.report = report;
-                                        oldfilm.finding = result[i].finding;
-                                        oldfilm.conclusion = result[i].conclusion;
-                                        oldfilm.recommendation = result[i].recommendation;
-                                        oldfilmList[i] = oldfilm;
-                                    }
-                                    cntBody++;
-                                    if (cntBody == result.length) {
-                                        let resultList = new Array();
-                                        let  rbCnt = 0;
-                                        for(let j=0; j<oldfilmList.length; j++){
-                                            if(oldfilmList[j]){
-                                                resultList.push(oldfilmList[j]);
-                                            }
-                                            rbCnt++;
-                                            if(rbCnt == oldfilmList.length){
-                                                this.$.bodyHhReportOldFilm.oldfilm = resultList;
-                                                this.$.bodyHhReportOldFilm.setOldFilmList(oldfilmList);
-                                            }
-                                        }
-                                    };
-                                }
-                            }else{
-                                let oldfilm = new Object();
-                                let oldfilmList = new Array();
-                                oldfilm.title = "";
-                                oldfilm.report = "";
-                                oldfilm.finding = "";
-                                oldfilm.conclusion = "";
-                                oldfilm.recommendation = "";
-                                this.$.bodyHhReportOldFilm.oldfilm = oldfilmList;
                             }
                         }, (err) => {
                             console.log(err);
