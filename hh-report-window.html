@@ -332,12 +332,25 @@
                         // });
 
                         this.$.sensitive.addEventListener('selected-items-changed',function(e){
+                            let cnt =0;
+                            let params = new Object();
                             if(_this.listSensitive.length > 0){
-                                let params = new Object();
-                                g_SelectedRow.sensitive = _this.listSensitive;
-                                _this.setAllOldReportList(g_SelectedRow);
+                                for(let i =0; i<_this.listSensitive.length; i++){
+                                    cnt++;
+                                    if(_this.listSensitive[i].includes("modality")){
+                                        params.modality = g_SelectedRow.modality;
+                                        params.selectedRow = g_SelectedRow;
+                                    }else if(_this.listSensitive[i].includes("bodypart")){
+                                        params.bodypart = g_SelectedRow.bodypart;
+                                        params.selectedRow = g_SelectedRow;
+                                    }
+                                    if(cnt == _this.listSensitive.length){
+                                        _this.setAllOldReportList(params);
+                                    }
+                                }
                             }else{
-                                _this.setAllOldReportList(g_SelectedRow);
+                                params.selectedRow = g_SelectedRow;
+                                _this.setAllOldReportList(params);
                             }
                         })
                     }
@@ -492,11 +505,12 @@
                         this.$.hhClinicalInfoExpend.setClinicalInfo(ccInfo);
                     }
 
-                    setAllOldReportList(selectedRow) {
+                    setAllOldReportList(params) {
+                        let selectedRow = params.selectedRow;
                         if(!selectedRow.sensitive){
                             g_SelectedRow = selectedRow;
                         }
-                        getOldFilmWorklist(selectedRow).then((result) => {
+                        getOldFilmWorklist(params).then((result) => {
                             if(result.length == 0){
                                 this.$.oldFilmSensitive.hidden = true;
                             }
@@ -515,8 +529,8 @@
                                     oldfilmList[i] = oldfilm;
                                     cntAll++;
                                     if (cntAll == result.length) {
-                                        this.$.allHhReportOldFilm.oldfilm = oldfilmList;
                                         this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
+                                        this.$.allHhReportOldFilm.oldfilm = oldfilmList;
                                         this.$.oldFilmSensitive.hidden = false;
                                     };
                                 }
@@ -571,6 +585,11 @@
                         this.$.report.approver = opinion.radiologist;
                     }
 
+                    clearOldReporListCheckbox(){
+                        this.$.sensitiveModal.checked = false;
+                        this.$.sensitiveBody.checked = false;
+                    }
+
                     expandingEvent(e) {
                         if (!this.$.btnExpand.active) {
                             this.$.btnExpand.click();
@@ -601,7 +620,10 @@
                                 }
                             }
                         } else {
-                            this.setAllOldReportList(g_SelectedRow);
+                            let params = new Object();
+                            params.selectedRow = g_SelectedRow;
+                            this.clearOldReporListCheckbox();
+                            this.setAllOldReportList(params);
                         }
                     }
                 }
