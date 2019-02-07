@@ -504,25 +504,21 @@
                             if (result.length > 0) {
                                 let cntAll = 0;
                                 for (let i = 0; i < result.length; i++) {
-                                    if(_this.listSensitive){
-                                        console.log(_this.listSensitive);
-                                    }else{
-                                        let oldfilm = new Object();
-                                        let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                        let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
-                                        oldfilm.title = title;
-                                        oldfilm.report = report;
-                                        oldfilm.finding = result[i].finding;
-                                        oldfilm.conclusion = result[i].conclusion;
-                                        oldfilm.recommendation = result[i].recommendation;
-                                        oldfilmList[i] = oldfilm;
-                                        cntAll++;
-                                        if (cntAll == result.length) {
-                                            this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                                            this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
-                                            this.$.oldFilmSensitive.hidden = false;
-                                        };
-                                    }
+                                    let oldfilm = new Object();
+                                    let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
+                                    let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    oldfilm.title = title;
+                                    oldfilm.report = report;
+                                    oldfilm.finding = result[i].finding;
+                                    oldfilm.conclusion = result[i].conclusion;
+                                    oldfilm.recommendation = result[i].recommendation;
+                                    oldfilmList[i] = oldfilm;
+                                    cntAll++;
+                                    if (cntAll == result.length) {
+                                        this.$.allHhReportOldFilm.oldfilm = oldfilmList;
+                                        this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
+                                        this.$.oldFilmSensitive.hidden = false;
+                                    };
                                 }
                             } else {
                                 let oldfilm = new Object();
