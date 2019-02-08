@@ -533,13 +533,25 @@
                                 let cntAll = 0;
                                 for (let i = 0; i < result.length; i++) {
                                     let oldfilm = new Object();
+                                    if(result[i].finding){
+                                        oldfilm.finding = result[i].finding;
+                                    }else{
+                                        oldfilm.finding = "";
+                                    }
+                                    if(result[i].conclusion){
+                                        oldfilm.conclusion = result[i].conclusion;
+                                    }else{
+                                        oldfilm.conclusion = "";
+                                    }
+                                    if(result[i].recommendation){
+                                        oldfilm.recommendation = result[i].recommendation;
+                                    }else{
+                                        oldfilm.recommendation = "";
+                                    }
                                     let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                    let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + result[i].finding + "\n\n" + "CONCLUSION" + "\n" + result[i].conclusion + "\n\n" + "RECOMMENDATION" + "\n" + result[i].recommendation;
+                                    let report = "STUDY DESCRIPTION" + "\n" + result[i].studyDescription + "\n\n" + "FINDING" + "\n" + oldfilm.finding + "\n\n" + "CONCLUSION" + "\n" + oldfilm.conclusion + "\n\n" + "RECOMMENDATION" + "\n" + oldfilm.recommendation;
                                     oldfilm.title = title;
                                     oldfilm.report = report;
-                                    oldfilm.finding = result[i].finding;
-                                    oldfilm.conclusion = result[i].conclusion;
-                                    oldfilm.recommendation = result[i].recommendation;
                                     oldfilmList[i] = oldfilm;
                                     cntAll++;
                                     if (cntAll == result.length) {
