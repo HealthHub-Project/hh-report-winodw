@@ -353,6 +353,20 @@
                                 _this.setAllOldReportList(params);
                             }
                         })
+
+                        this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
+                            if(e.detail.copiedOpinion.finding){
+                                _this.$.report.findings += e.detail.copiedOpinion.finding
+                            }
+
+                            if(e.detail.copiedOpinion.conclusion){
+                                _this.$.report.conclusion += e.detail.copiedOpinion.conclusion
+                            }
+
+                            if(e.detail.copiedOpinion.recommendation){
+                                _this.$.report.recommendation += e.detail.copiedOpinion.recommendation
+                            }
+                        })
                     }
 
                     static get properties() {
