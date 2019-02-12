@@ -108,6 +108,8 @@
                 color: #aaaaaa;
                 background-color: #282e38;
                 padding: 1px 0px 1px 0px;
+                display: flex;
+                flex-direction: row;
             }
 
             .checkBox-style{
@@ -117,6 +119,12 @@
                 --paper-checkbox-label-color: #aaaaaa;
                 --paper-checkbox-unchecked-color: #4c5667;
                 padding: 3px;
+            }
+
+            .iconSortBtn{
+                margin: 0px 1px 0px 1px;
+                font-size: 13px;
+                color: #aaaaaa;
             }
 
         </style>
@@ -184,6 +192,8 @@
                                 <paper-checkbox value="modality" id="sensitiveModal" class="checkBox-style" noink>Modality</paper-checkbox>
                                 <paper-checkbox value="bodypart" id="sensitiveBody"  class="checkBox-style" noink>Bodypart</paper-checkbox>
                             </iron-selector>
+                            <div id="fontAsc" on-click="ascSort" readonly><paper-icon-button id="iconAscending" noink icon="vaadin:chevron-down-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Aescending</div>
+                            <div id="fontDsc" on-click="dscSort" readonly hidden="true"><paper-icon-button id="iconDescending" noink icon="vaadin:chevron-up-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Descending</div>
                         </div>
                         <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 65px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
                             <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
@@ -223,6 +233,7 @@
         (function () {
                 let parentWidth;
                 let g_objId;
+                let g_readingTemplateList = new Array();
                 let g_message = {
                     msg: "",
                     isErr: false
@@ -366,7 +377,50 @@
                             if(e.detail.copiedOpinion.recommendation){
                                 _this.$.report.recommendation += e.detail.copiedOpinion.recommendation
                             }
-                        })
+                        });
+
+                        this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
+                            console.log("reading template save");
+                            console.log(e.detail);
+                        });
+
+                        this.$.hhReadingTemplate.addEventListener('updateReadingTemplateEvent',function(e){
+                            console.log("reading template update");
+                            console.log(e.detail);
+                        });
+
+                        this.$.hhReadingTemplate.addEventListener('deleteReadingTemplateEvent',function(e){
+                            console.log("reading template delete");
+                            console.log(e.detail);
+                        });
+
+                        this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
+                            createReadingTemplateByUserId(e.detail.readingTemplate);
+                        });
+
+                        this.$.hhReadingTemplateExpand.addEventListener('updateReadingTemplateEvent',function(e){
+                            console.log(e.detail);
+                            if(e.detail.readingTemplate.g_readingTemplateList){
+                                delete e.detail.readingTemplate.g_readingTemplateList
+                            }
+                            updateUserRdadingTemplateById(e.detail.readingTemplate)
+                        });
+
+                        this.$.hhReadingTemplateExpand.addEventListener('deleteReadingTemplateEvent',function(e){
+                            console.log("expand reading template delete");
+                            console.log(e.detail);
+                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
+                        });
+
+                        this.setReadingTemplate();
                     }
 
                     static get properties() {
@@ -525,9 +579,6 @@
                             g_SelectedRow = selectedRow;
                         }
                         getOldFilmWorklist(params).then((result) => {
-                            if(result.length == 0){
-                                this.$.oldFilmSensitive.hidden = true;
-                            }
                             let oldfilmList = new Array();
                             if (result.length > 0) {
                                 let cntAll = 0;
@@ -557,7 +608,6 @@
                                     if (cntAll == result.length) {
                                         this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
                                         this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                                        this.$.oldFilmSensitive.hidden = false;
                                     };
                                 }
                             } else {
@@ -591,8 +641,22 @@
                         this.$.hhClinicalInfoExpend.clearClinicalInfo();
                     }
 
-                    setReadingTemplate(selectedNewFilm){
-                        console.log(selectedNewFilm);
+                    setReadingTemplate(params){
+                        if(!params){
+                            getReadingTemplateListByUserId().then((result) => {
+                                let param = new Object();
+                                param.readingTemplateList = result;
+                                g_readingTemplateList = result;
+                                // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                            });
+                        }else{
+                            let param = new Object();
+                            param.readingTemplateList = g_readingTemplateList;
+                            param.selectedRow = params.selectedRow;
+                            // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                            _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                        }
                     }
 
                     saveReadingTemplate(){
@@ -611,9 +675,38 @@
                         this.$.report.approver = opinion.radiologist;
                     }
 
+                    clearReadingTemplateSensitive(){
+                        this.$.hhReadingTemplate.setSensitiveCheckedDefault();
+                        this.$.hhReadingTemplateExpand.setSensitiveCheckedDefault();
+                    }
+
                     clearOldReporListCheckbox(){
                         this.$.sensitiveModal.checked = false;
                         this.$.sensitiveBody.checked = false;
+                        this.$.iconAscending.hidden = false;
+                        this.$.fontAsc.hidden = false;
+                        this.$.iconDescending.hidden = true;
+                        this.$.fontDsc.hidden = true;
+                    }
+
+                    ascSort(){
+                        this.$.iconAscending.hidden = true;
+                        this.$.fontAsc.hidden = true;
+                        this.$.iconDescending.hidden = false;
+                        this.$.fontDsc.hidden = false;
+                        this.$.allHhReportOldFilm.sort();
+                    }
+
+                    dscSort(){
+                        this.$.iconAscending.hidden = false;
+                        this.$.fontAsc.hidden = false;
+                        this.$.iconDescending.hidden = true;
+                        this.$.fontDsc.hidden = true;
+                        this.$.allHhReportOldFilm.sort();
+                    }
+
+                    readingTemplateDefalutSensitiveChecked(){
+                        this.$.readingTemplatesetSensitiveCheckedDefault
                     }
 
                     expandingEvent(e) {
@@ -649,14 +742,9 @@
                                     oldfilm.title = title;
                                     oldfilm.report = report;
                                     oldfilmList[i] = oldfilm;
-
-
-                                    oldfilmList[i] = oldfilm;
                                     cntAll++;
                                     if (cntAll == result.length) {
                                         this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                                        this.$.oldFilmSensitive.hidden = true;
-                                        this.$.oldfilmList.style="height: calc(100% - 35px);";
                                     };
                                 }
                             }
