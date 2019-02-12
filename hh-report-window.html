@@ -366,17 +366,7 @@
                         })
 
                         this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
-                            if(e.detail.copiedOpinion.finding){
-                                _this.$.report.findings += e.detail.copiedOpinion.finding
-                            }
-
-                            if(e.detail.copiedOpinion.conclusion){
-                                _this.$.report.conclusion += e.detail.copiedOpinion.conclusion
-                            }
-
-                            if(e.detail.copiedOpinion.recommendation){
-                                _this.$.report.recommendation += e.detail.copiedOpinion.recommendation
-                            }
+                            _this.setCopyOpinion(e.detail.copiedOpinion);
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
@@ -647,14 +637,14 @@
                                 let param = new Object();
                                 param.readingTemplateList = result;
                                 g_readingTemplateList = result;
-                                // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                                 _this.$.hhReadingTemplate.getReadingTemplateList(param);
                             });
                         }else{
                             let param = new Object();
                             param.readingTemplateList = g_readingTemplateList;
                             param.selectedRow = params.selectedRow;
-                            // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             _this.$.hhReadingTemplate.getReadingTemplateList(param);
                         }
                     }
@@ -667,12 +657,26 @@
 
                     }
 
+                    // approve 되어 DB에 저장된 판독문 불러오기
                     setOpinion(opinion) {
                         this.$.report.findings = opinion.findings;
                         this.$.report.conclusion = opinion.conclusion;
                         this.$.report.recommendation = opinion.recommendation;
                         this.$.report.recommendation = opinion.recommendation;
                         this.$.report.approver = opinion.radiologist;
+                    }
+
+                    // 입력된 판독문에 추가 판독문 입력하기
+                    setCopyOpinion(opinion){
+                        if(opinion.finding){
+                            _this.$.report.findings += opinion.finding;
+                        }
+                        if(opinion.conclusion){
+                            _this.$.report.conclusion += opinion.conclusion;
+                        }
+                        if(opinion.recommendation){
+                            _this.$.report.recommendation += opinion.recommendation;
+                        }
                     }
 
                     clearReadingTemplateSensitive(){
