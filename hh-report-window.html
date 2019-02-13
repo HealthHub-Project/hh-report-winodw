@@ -818,6 +818,23 @@
                             this.setAllOldReportList(params);
                         }
                     }
+
+
+                    //////////////////////
+                    // hh-report method //
+                    //////////////////////
+
+                    setRadiologist(rows) {
+                        this.$.report.tRowData = rows;
+                    }
+
+                    setDoctorList(rows) {
+                        this.$.report.sRowData = rows;
+                    }
+
+                    getRadiologist() {
+                        this.$.report.getRadiologist();
+                    }
                 }
 
                 window.customElements.define(HhReportWindow.is, HhReportWindow);
