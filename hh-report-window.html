@@ -370,18 +370,34 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
-                            console.log("reading template save");
-                            console.log(e.detail);
+                            createReadingTemplateByUserId(e.detail.readingTemplate);
                         });
 
                         this.$.hhReadingTemplate.addEventListener('updateReadingTemplateEvent',function(e){
-                            console.log("reading template update");
-                            console.log(e.detail);
+                            if(e.detail.readingTemplate.g_readingTemplateList){
+                                delete e.detail.readingTemplate.g_readingTemplateList
+                            }
+                            updateUserRdadingTemplateById(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('deleteReadingTemplateEvent',function(e){
-                            console.log("reading template delete");
-                            console.log(e.detail);
+                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
@@ -389,24 +405,42 @@
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('updateReadingTemplateEvent',function(e){
-                            console.log(e.detail);
                             if(e.detail.readingTemplate.g_readingTemplateList){
                                 delete e.detail.readingTemplate.g_readingTemplateList
                             }
-                            updateUserRdadingTemplateById(e.detail.readingTemplate)
+                            updateUserRdadingTemplateById(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('deleteReadingTemplateEvent',function(e){
-                            console.log("expand reading template delete");
-                            console.log(e.detail);
                             deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
                                 getReadingTemplateListByUserId().then((result) => {
                                     let param = new Object();
                                     param.readingTemplateList = result;
                                     g_readingTemplateList = result;
-                                    // _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                                     _this.$.hhReadingTemplate.getReadingTemplateList(param);
                                 });
+                            });
+                        });
+
+                        this.$.hhReadingTemplate.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
+                            getReadingTemplateListBySensitive(e.detail).then((result)=>{
+                                console.log(result);
+                            });
+
+                        });
+
+                        this.$.hhReadingTemplateExpand.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
+                            getReadingTemplateListBySensitive(e.detail).then((result)=>{
+                                console.log(result);
                             });
                         });
 
@@ -455,6 +489,8 @@
 
                     _expand(e) {
                         if(!this.$.btnPin.active) {
+                            this.setExpandReadingTemplate();
+
                             let selectedTop = this.selectedTop;
                             this.selectedTop = null;
 
@@ -631,6 +667,17 @@
                         this.$.hhClinicalInfoExpend.clearClinicalInfo();
                     }
 
+                    setExpandReadingTemplate(){
+                        this.setReadingTemplate();
+                        //this.$.btnExpand.active == true :: expand
+                        //this.$.btnExpand.active == false :: shorted
+                        if(this.$.btnExpand.active ){
+                            this.$.hhReadingTemplateExpand.setSensitiveChectedExpand(this.$.hhReadingTemplate.selectSensitive);
+                        }else{
+                            this.$.hhReadingTemplate.setSensitiveChectedExpand(this.$.hhReadingTemplateExpand.selectSensitive);
+                        }
+                    }
+
                     setReadingTemplate(params){
                         if(!params){
                             getReadingTemplateListByUserId().then((result) => {
@@ -707,10 +754,6 @@
                         this.$.iconDescending.hidden = true;
                         this.$.fontDsc.hidden = true;
                         this.$.allHhReportOldFilm.sort();
-                    }
-
-                    readingTemplateDefalutSensitiveChecked(){
-                        this.$.readingTemplatesetSensitiveCheckedDefault
                     }
 
                     expandingEvent(e) {
