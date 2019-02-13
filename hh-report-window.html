@@ -370,7 +370,15 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
-                            createReadingTemplateByUserId(e.detail.readingTemplate);
+                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('updateReadingTemplateEvent',function(e){
@@ -401,7 +409,15 @@
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
-                            createReadingTemplateByUserId(e.detail.readingTemplate);
+                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                getReadingTemplateListByUserId().then((result) => {
+                                    let param = new Object();
+                                    param.readingTemplateList = result;
+                                    g_readingTemplateList = result;
+                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                });
+                            });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('updateReadingTemplateEvent',function(e){
