@@ -253,6 +253,7 @@
 
                     ready() {
                         super.ready();
+                        this.setSensitiveForFacility();
 
                         this.addEventListener('iron-resize', () => {
                             this._onIronResize()
@@ -449,14 +450,20 @@
 
                         this.$.hhReadingTemplate.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
                             getReadingTemplateListBySensitive(e.detail).then((result)=>{
-                                console.log(result);
+                                let param = new Object();
+                                param.readingTemplateList = result;
+                                _this.$.hhReadingTemplateExpand.getSensitiveTemplateList(param);
+                                _this.$.hhReadingTemplate.getSensitiveTemplateList(param);
                             });
 
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
                             getReadingTemplateListBySensitive(e.detail).then((result)=>{
-                                console.log(result);
+                                let param = new Object();
+                                param.readingTemplateList = result;
+                                _this.$.hhReadingTemplateExpand.getSensitiveTemplateList(param);
+                                _this.$.hhReadingTemplate.getSensitiveTemplateList(param);
                             });
                         });
 
@@ -692,6 +699,31 @@
                         }else{
                             this.$.hhReadingTemplate.setSensitiveChectedExpand(this.$.hhReadingTemplateExpand.selectSensitive);
                         }
+                    }
+
+                    setSensitiveForFacility(){
+                        let modalityList = new Array();
+                        let bodypartList = new Array();
+                        let studyDescList = new Array();
+                        getModality().then((result) =>{
+                            modalityList = result;
+                            getBodyPart().then((result) =>{
+                                bodypartList = result;
+                                // TODO : c_case studyDescription 생성 후 수정.
+                                // getStudyDescription().then((result) =>{
+                                //     studyDescList = result;
+                                // console.log(studyDescList);
+                                let param = new Object();
+                                let detail = new Object();
+                                detail.modalityList = modalityList;
+                                detail.bodypartList = bodypartList;
+                                // detail.studyDescList = studyDescList;
+                                param.detail = detail;
+                                this.$.hhReadingTemplate.setSensitiveForFacility(param);
+                                this.$.hhReadingTemplateExpand.setSensitiveForFacility(param);
+                                // });
+                            });
+                        });
                     }
 
                     setReadingTemplate(params){
