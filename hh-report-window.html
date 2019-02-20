@@ -725,8 +725,7 @@
                         this.$.report.findings = opinion.findings;
                         this.$.report.conclusion = opinion.conclusion;
                         this.$.report.recommendation = opinion.recommendation;
-                        this.$.report.recommendation = opinion.recommendation;
-                        this.$.report.approver = opinion.radiologist;
+                        // this.$.report.radiologist = opinion.radiologist;
                     }
 
                     // 입력된 판독문에 추가 판독문 입력하기
@@ -824,16 +823,24 @@
                     // hh-report method //
                     //////////////////////
 
-                    setRadiologist(rows) {
+                    setRadiologists(rows) {
                         this.$.report.tRowData = rows;
                     }
 
-                    setDoctorList(rows) {
+                    setRadiologist(radiologist) {
+                        this.$.report.radiologist = radiologist;
+                    }
+
+                    setDoctors(rows) {
                         this.$.report.sRowData = rows;
                     }
 
-                    getRadiologist() {
-                        this.$.report.getRadiologist();
+                    getRadiologists() {
+                        return this.$.report.getRadiologists();
+                    }
+
+                    getOpinion() {
+                        return this.$.report.getOpinion();
                     }
                 }
 
