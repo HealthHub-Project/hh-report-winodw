@@ -467,7 +467,9 @@
                             });
                         });
 
-                        this.setReadingTemplate();
+                        window.addEventListener('WebComponentsReady', e => {
+                            this.setReadingTemplate();
+                        });
                     }
 
                     static get properties() {
