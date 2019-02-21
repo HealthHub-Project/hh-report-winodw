@@ -754,6 +754,10 @@
 
                     }
 
+                    clearOpinion(){
+                        this.$.report.clear();
+                    }
+
                     // approve 되어 DB에 저장된 판독문 불러오기
                     setOpinion(opinion) {
                         this.$.report.findings = opinion.findings;
