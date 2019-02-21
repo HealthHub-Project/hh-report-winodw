@@ -263,6 +263,11 @@
                             _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
                         });
 
+                        this.$.report.addEventListener('consultToBtnClickEvent', (e) => {
+                            _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
+                        });
+
+
                         if (!this.expand) {
                             this.style.width = '470px';
                             this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 470px)';
@@ -879,6 +884,30 @@
 
                     getOpinion() {
                         return this.$.report.getOpinion();
+                    }
+
+                    enabledApproveBtn() {
+                        this.$.report.enabledApproveBtn();
+                    }
+
+                    disabledApproveBtn() {
+                        this.$.report.disabledApproveBtn();
+                    }
+
+                    clearOpinion() {
+                        this.$.report.initTextArea();
+                    }
+
+                    setScpUsers(users) {
+                        this.$.report.setScpUsers(users);
+                    }
+
+                    openScpUsersModal() {
+                        this.$.report.openScpUsersModal();
+                    }
+
+                    closeScpUsersModal() {
+                        this.$.report.closeScpUsersModal();
                     }
                 }
 
