@@ -4,12 +4,12 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../vaadin-icons/vaadin-icons.html">
 
-<link rel="import" href="../hh-image-report/hh-image-report.html">
+<!--<link rel="import" href="../hh-image-report/hh-image-report.html">-->
 <!--<link rel="import" href="../hh-reading-template/hh-reading-template.html">-->
-<link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
-<link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
-<link rel="import" href="../hh-report/hh-report.html">
-<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">
+<!--<link rel="import" href="../hh-clinical-info/hh-clinical-info.html">-->
+<!--<link rel="import" href="../hh-thumbnail/hh-thumbnail.html">-->
+<!--<link rel="import" href="../hh-report/hh-report.html">-->
+<!--<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">-->
 
 <dom-module id="hh-report-window">
     <template>
@@ -152,16 +152,16 @@
                         </paper-tabs>
                         <iron-pages id="reportWindowPage" selected="{{selectedTop}}">
                             <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
+                                <!--<hh-thumbnail id="hhThumbnail"></hh-thumbnail>-->
                             </div>
                             <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>
+                                <!--<hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>-->
                             </div>
                             <div id="readingTemplatePage" style="height: 100%">
                                 <!--<hh-reading-template id="hhReadingTemplate"></hh-reading-template>-->
                             </div>
                             <div id="clinicalInfoPage" style="height: 100%">
-                                <hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>
+                                <!--<hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>-->
                             </div>
                         </iron-pages>
                     </div>
@@ -170,7 +170,7 @@
                             Clinical Info
                         </div>
                         <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-clinical-info id="hhClinicalInfoExpend"></hh-clinical-info>
+                            <!--<hh-clinical-info id="hhClinicalInfoExpend"></hh-clinical-info>-->
                         </div>
                     </div>
                     <div id="div3" style="height: 385px; width: 330px; padding-top: 10px; display: flex; flex-direction: column;">
@@ -196,7 +196,7 @@
                             <div id="fontDsc" on-click="dscSort" readonly hidden="true"><paper-icon-button id="iconDescending" noink icon="vaadin:chevron-up-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Descending</div>
                         </div>
                         <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 65px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
+                            <!--<hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>-->
                         </div>
                     </div>
                     <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
@@ -208,7 +208,7 @@
                         </paper-tabs>
                         <iron-pages selected="{{selectedBottomNew}}">
                             <div style="height: 100%; width: 100%;">
-                                <hh-report id="report"></hh-report>
+                                <!--<hh-report id="report"></hh-report>-->
                             </div>
                             <div></div>
                             <div></div>
@@ -253,19 +253,25 @@
 
                     ready() {
                         super.ready();
-                        this.setSensitiveForFacility();
+                        // this.setSensitiveForFacility();
 
                         this.addEventListener('iron-resize', () => {
                             this._onIronResize()
                         });
 
-                        this.$.report.addEventListener('btnClickEvent', (e) => {
-                            _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
-                        });
 
-                        this.$.report.addEventListener('consultToBtnClickEvent', (e) => {
-                            _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
-                        });
+
+                        //주석
+                        // this.$.report.addEventListener('btnClickEvent', (e) => {
+                        //     _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
+                        // });
+                        //
+                        // this.$.report.addEventListener('consultToBtnClickEvent', (e) => {
+                        //     _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
+                        // });
+
+
+
 
 
                         if (!this.expand) {
@@ -305,28 +311,40 @@
                             this.$.btnPin.active = true;
                         }
 
-                        this.$.reportWindowPage.addEventListener('iron-select', e => {
-                            if (e.detail.item.className === "reading-content iron-selected") {
-                                this.$.hhImageReport.onLoadBody();
 
-                                if (g_objId !== undefined) {
-                                    this.$.hhThumbnail.tabStartBody();
-                                }
-                            }
-                        });
+                        //주석
+                        // this.$.reportWindowPage.addEventListener('iron-select', e => {
+                        //     if (e.detail.item.className === "reading-content iron-selected") {
+                        //         this.$.hhImageReport.onLoadBody();
+                        //
+                        //         if (g_objId !== undefined) {
+                        //             this.$.hhThumbnail.tabStartBody();
+                        //         }
+                        //     }
+                        // });
 
-                        this.$.hhThumbnail.addEventListener('toastEvent', function (e) {
-                            _this.dispatchEvent(new CustomEvent('toastEvent', e));
-                        });
 
-                        this.$.hhThumbnail.addEventListener('setSelectedSeriesInfoEvent', function (e) {
-                            _this.dispatchEvent(new CustomEvent('setSelectedSeriesInfoEvent', e));
-                        });
+                        //주석
+                        // this.$.hhThumbnail.addEventListener('toastEvent', function (e) {
+                        //     _this.dispatchEvent(new CustomEvent('toastEvent', e));
+                        // });
+                        //
+                        // this.$.hhThumbnail.addEventListener('setSelectedSeriesInfoEvent', function (e) {
+                        //     _this.dispatchEvent(new CustomEvent('setSelectedSeriesInfoEvent', e));
+                        // });
+                        //
+                        // this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
+                        //     let ccInfo = e.detail;
+                        //     this.getClinicalInfo(ccInfo);
+                        // });
 
-                        this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
-                            let ccInfo = e.detail;
-                            this.getClinicalInfo(ccInfo);
-                        });
+
+
+
+
+
+
+
 
                         // this.$.report.addEventListener('printOpenEvent', function () {
                         //     _this.$.hhImageReport.getImageReport();
@@ -371,10 +389,12 @@
                             }
                         })
 
-                        this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
-                            _this.setCopyOpinion(e.detail.copiedOpinion);
-                        });
 
+                        //주석
+                        // this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
+                        //     _this.setCopyOpinion(e.detail.copiedOpinion);
+                        // });
+                        //
                         // this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
                         //     createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
                         //         getReadingTemplateListByUserId().then((result) => {
@@ -473,7 +493,8 @@
                         // });
 
                         window.addEventListener('WebComponentsReady', e => {
-                            this.setReadingTemplate();
+                            //주석
+                            // this.setReadingTemplate();
                         });
                     }
 
