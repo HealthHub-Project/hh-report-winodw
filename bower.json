@@ -7,7 +7,7 @@
     "hh-clinical-info": "*",
     "hh-thumbnail": "*",
     "hh-report": "*",
-    "hh-report-oldfilm": "hh-report-oldFilm#*",
+    "hh-report-oldfilm": "*",
     "hh-image-report": "*"
   },
   "devDependencies": {
