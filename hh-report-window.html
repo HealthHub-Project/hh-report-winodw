@@ -9,7 +9,7 @@
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
 <!--<link rel="import" href="../hh-report/hh-report.html">-->
-<!--<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">-->
+<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">
 
 <dom-module id="hh-report-window">
     <template>
@@ -196,7 +196,7 @@
                             <div id="fontDsc" on-click="dscSort" readonly hidden="true"><paper-icon-button id="iconDescending" noink icon="vaadin:chevron-up-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Descending</div>
                         </div>
                         <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 65px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <!--<hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>-->
+                            <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
                         </div>
                     </div>
                     <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
@@ -390,9 +390,9 @@
 
 
                         //주석
-                        // this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
-                        //     _this.setCopyOpinion(e.detail.copiedOpinion);
-                        // });
+                        this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
+                            _this.setCopyOpinion(e.detail.copiedOpinion);
+                        });
                         //
                         // this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
                         //     createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
