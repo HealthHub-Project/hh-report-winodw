@@ -187,15 +187,7 @@
                         <div style="height: 30px; display:flex; align-items: center; margin-bottom: 5px; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
                             OldFIlm Report LIst
                         </div>
-                        <div class="class-oldFilmReportSelected" id="oldFilmSensitive">
-                            <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{listSensitive}}" multi>
-                                <paper-checkbox value="modality" id="sensitiveModal" class="checkBox-style" noink>Modality</paper-checkbox>
-                                <paper-checkbox value="bodypart" id="sensitiveBody"  class="checkBox-style" noink>Bodypart</paper-checkbox>
-                            </iron-selector>
-                            <div id="fontAsc" on-click="ascSort" readonly><paper-icon-button id="iconAscending" noink icon="vaadin:chevron-down-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Aescending</div>
-                            <div id="fontDsc" on-click="dscSort" readonly hidden="true"><paper-icon-button id="iconDescending" noink icon="vaadin:chevron-up-small" title="oldListSort" class="iconSortBtn" ></paper-icon-button>Descending</div>
-                        </div>
-                        <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 65px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                        <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 35px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
                             <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
                         </div>
                     </div>
@@ -266,10 +258,6 @@
                         this.$.report.addEventListener('consultToBtnClickEvent', (e) => {
                             _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
                         });
-
-
-
-
 
                         if (!this.expand) {
                             this.style.width = '470px';
@@ -352,32 +340,16 @@
                         //     _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
                         // });
 
-                        this.$.sensitive.addEventListener('selected-items-changed',function(e){
-                            let cnt =0;
-                            let params = new Object();
-                            if(_this.listSensitive.length > 0){
-                                for(let i =0; i<_this.listSensitive.length; i++){
-                                    cnt++;
-                                    if(_this.listSensitive[i].includes("modality")){
-                                        params.modality = g_SelectedRow.modality;
-                                        params.selectedRow = g_SelectedRow;
-                                    }else if(_this.listSensitive[i].includes("bodypart")){
-                                        params.bodypart = g_SelectedRow.bodypart;
-                                        params.selectedRow = g_SelectedRow;
-                                    }
-                                    if(cnt == _this.listSensitive.length){
-                                        _this.setAllOldReportList(params);
-                                    }
-                                }
-                            }else{
-                                params.selectedRow = g_SelectedRow;
-                                _this.setAllOldReportList(params);
-                            }
-                        })
-
-
                         this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
                             _this.setCopyOpinion(e.detail.copiedOpinion);
+                        });
+
+                        this.$.allHhReportOldFilm.addEventListener('oldfilmSensitiveEvent',function (e) {
+                            getOldFilmWorklist(e.detail).then((result) => {
+                                _this.$.allHhReportOldFilm.setOldFilmListBySensitive(result);
+                            }, (err) => {
+                                console.log(err);
+                            });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
@@ -507,9 +479,6 @@
                             pin: {
                                 type: Boolean,
                                 value: false
-                            },
-                            listSensitive: {
-                                type: Array
                             }
                         }
                     }
@@ -634,57 +603,45 @@
                         this.$.hhClinicalInfoExpend.setClinicalInfo(ccInfo);
                     }
 
+                    //////////////////////////////
+                    ///////  OLDFILM LIST  ///////
+                    //////////////////////////////
+
                     setAllOldReportList(params) {
                         let selectedRow = params.selectedRow;
                         if(!selectedRow.sensitive){
                             g_SelectedRow = selectedRow;
+                            this.$.allHhReportOldFilm.setNewfilmSelectedRow(g_SelectedRow);
+                        }else{
+                            this.$.allHhReportOldFilm.hiddenOldFilmSensitive();
+                            this.$.allHhReportOldFilm.setNewfilmSelectedRow(null);
                         }
                         getOldFilmWorklist(params).then((result) => {
-                            let oldfilmList = new Array();
-                            if (result.length > 0) {
-                                let cntAll = 0;
-                                for (let i = 0; i < result.length; i++) {
-                                    let oldfilm = new Object();
-                                    if(result[i].finding){
-                                        oldfilm.finding = result[i].finding;
-                                    }else{
-                                        oldfilm.finding = "";
-                                    }
-                                    if(result[i].conclusion){
-                                        oldfilm.conclusion = result[i].conclusion;
-                                    }else{
-                                        oldfilm.conclusion = "";
-                                    }
-                                    if(result[i].recommendation){
-                                        oldfilm.recommendation = result[i].recommendation;
-                                    }else{
-                                        oldfilm.recommendation = "";
-                                    }
-                                    let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                    let report = "[ STUDY DESCRIPTION ]" + "\n" + result[i].studyDescription + "\n\n" + "[ FINDING ]" + "\n" + oldfilm.finding + "\n\n" + "[ CONCLUSION ]" + "\n" + oldfilm.conclusion + "\n\n" + "[ RECOMMENDATION ]" + "\n" + oldfilm.recommendation;
-                                    oldfilm.title = title;
-                                    oldfilm.report = report;
-                                    oldfilmList[i] = oldfilm;
-                                    cntAll++;
-                                    if (cntAll == result.length) {
-                                        this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
-                                        this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                                    };
-                                }
-                            } else {
-                                let oldfilm = new Object();
-                                let oldfilmList = new Array();
-                                oldfilm.title = "";
-                                oldfilm.report = "";
-                                oldfilm.finding = "";
-                                oldfilm.conclusion = "";
-                                oldfilm.recommendation = "";
-                                this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                            }
+                            this.$.allHhReportOldFilm.setOldFilmList(result);
                         }, (err) => {
                             console.log(err);
                         });
                     }
+
+                    expandingEvent(e) {
+                        if (!this.$.btnExpand.active) {
+                            this.$.btnExpand.click();
+                        }
+                        if (e.detail.category == "selected") {
+                            let result = new Array();
+                            result.push(e.detail);
+                            this.$.allHhReportOldFilm.setOldFilmList(result);
+                        } else {
+                            let params = new Object();
+                            params.selectedRow = g_SelectedRow;
+                            this.$.allHhReportOldFilm.clearOldReporListCheckbox();
+                            this.setAllOldReportList(params);
+                        }
+                    }
+
+                    //////////////////////////////
+                    //////  CLINICAL INFO   //////
+                    //////////////////////////////
 
                     getClinicalInfo(ccInfo) {
                         if((ccInfo === undefined || ccInfo === "")&& g_objId === undefined) {
@@ -701,6 +658,10 @@
                         this.$.hhClinicalInfo.clearClinicalInfo();
                         this.$.hhClinicalInfoExpend.clearClinicalInfo();
                     }
+
+                    //////////////////////////////
+                    ////  READING TEMPLATE  ////
+                    //////////////////////////////
 
                     setExpandReadingTemplate(){
                         this.setReadingTemplate();
@@ -756,13 +717,15 @@
                         }
                     }
 
-                    saveReadingTemplate(){
-
+                    clearReadingTemplateSensitive(){
+                        this.$.hhReadingTemplate.setSensitiveCheckedDefault();
+                        this.$.hhReadingTemplateExpand.setSensitiveCheckedDefault();
                     }
 
-                    updateReadingTemplate(){
 
-                    }
+                    //////////////////////
+                    // hh-report method //
+                    //////////////////////
 
                     clearOpinion(){
                         this.$.report.clear();
@@ -788,88 +751,6 @@
                             _this.$.report.recommendation += opinion.recommendation;
                         }
                     }
-
-                    clearReadingTemplateSensitive(){
-                        this.$.hhReadingTemplate.setSensitiveCheckedDefault();
-                        this.$.hhReadingTemplateExpand.setSensitiveCheckedDefault();
-                    }
-
-                    clearOldReporListCheckbox(){
-                        this.$.sensitiveModal.checked = false;
-                        this.$.sensitiveBody.checked = false;
-                        this.$.iconAscending.hidden = false;
-                        this.$.fontAsc.hidden = false;
-                        this.$.iconDescending.hidden = true;
-                        this.$.fontDsc.hidden = true;
-                    }
-
-                    ascSort(){
-                        this.$.iconAscending.hidden = true;
-                        this.$.fontAsc.hidden = true;
-                        this.$.iconDescending.hidden = false;
-                        this.$.fontDsc.hidden = false;
-                        this.$.allHhReportOldFilm.sort();
-                    }
-
-                    dscSort(){
-                        this.$.iconAscending.hidden = false;
-                        this.$.fontAsc.hidden = false;
-                        this.$.iconDescending.hidden = true;
-                        this.$.fontDsc.hidden = true;
-                        this.$.allHhReportOldFilm.sort();
-                    }
-
-                    expandingEvent(e) {
-                        if (!this.$.btnExpand.active) {
-                            this.$.btnExpand.click();
-                        }
-
-                        if (e.detail.category == "selected") {
-                            let result = new Array();
-                            result.push(e.detail);
-                            let oldfilmList = new Array();
-                            if (result.length > 0) {
-                                let cntAll = 0;
-                                for (let i = 0; i < result.length; i++) {
-                                    let oldfilm = new Object();
-                                    if(result[i].finding){
-                                        oldfilm.finding = result[i].finding;
-                                    }else{
-                                        oldfilm.finding = "";
-                                    }
-                                    if(result[i].conclusion){
-                                        oldfilm.conclusion = result[i].conclusion;
-                                    }else{
-                                        oldfilm.conclusion = "";
-                                    }
-                                    if(result[i].recommendation){
-                                        oldfilm.recommendation = result[i].recommendation;
-                                    }else{
-                                        oldfilm.recommendation = "";
-                                    }
-                                    let title = result[i].modality + " " + result[i].bodypart + " " + result[i].studyDtime;
-                                    let report = "[ STUDY DESCRIPTION ]" + "\n" + result[i].studyDescription + "\n\n" + "[ FINDING ]" + "\n" + oldfilm.finding + "\n\n" + "[ CONCLUSION ]" + "\n" + oldfilm.conclusion + "\n\n" + "[ RECOMMENDATION ]" + "\n" + oldfilm.recommendation;
-                                    oldfilm.title = title;
-                                    oldfilm.report = report;
-                                    oldfilmList[i] = oldfilm;
-                                    cntAll++;
-                                    if (cntAll == result.length) {
-                                        this.$.allHhReportOldFilm.oldfilm = oldfilmList;
-                                    };
-                                }
-                            }
-                        } else {
-                            let params = new Object();
-                            params.selectedRow = g_SelectedRow;
-                            this.clearOldReporListCheckbox();
-                            this.setAllOldReportList(params);
-                        }
-                    }
-
-
-                    //////////////////////
-                    // hh-report method //
-                    //////////////////////
 
                     setRadiologists(rows) {
                         this.$.report.tRowData = rows;
