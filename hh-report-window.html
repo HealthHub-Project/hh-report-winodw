@@ -9,7 +9,7 @@
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
 <link rel="import" href="../hh-thumbnail/hh-thumbnail.html">
 <link rel="import" href="../hh-report/hh-report.html">
-<link rel="import" href="../hh-report-oldfilm/hh-report-oldfilm.html">
+<link rel="import" href="../hh-report-oldFilm/hh-report-oldfilm.html">
 
 <dom-module id="hh-report-window">
     <template>
@@ -778,6 +778,14 @@
 
                     disabledApproveBtn() {
                         this.$.report.disabledApproveBtn();
+                    }
+
+                    enabledSaveBtn() {
+                        this.$.report.enabledSaveBtn();
+                    }
+
+                    disabledSaveBtn() {
+                        this.$.report.disabledSaveBtn();
                     }
 
                     clearOpinion() {
