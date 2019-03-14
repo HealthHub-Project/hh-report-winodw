@@ -248,7 +248,6 @@
 
                     ready() {
                         super.ready();
-                        this.setSensitiveForFacility();
 
                         this.addEventListener('iron-resize', () => {
                             this._onIronResize()
@@ -348,22 +347,12 @@
                         });
 
                         this.$.allHhReportOldFilm.addEventListener('oldfilmSensitiveEvent',function (e) {
-                            getOldFilmWorklist(e.detail).then((result) => {
-                                _this.$.allHhReportOldFilm.setOldFilmListBySensitive(result);
-                            }, (err) => {
-                                console.log(err);
-                            });
+                            _this.dispatchEvent(new CustomEvent('getSensitiveOldFilmWorklistEvent', e));
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
                             createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
@@ -372,37 +361,19 @@
                                 delete e.detail.readingTemplate.g_readingTemplateList
                             }
                             updateUserRdadingTemplateById(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('deleteReadingTemplateEvent',function(e){
                             deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
                             createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
@@ -411,25 +382,13 @@
                                 delete e.detail.readingTemplate.g_readingTemplateList
                             }
                             updateUserRdadingTemplateById(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('deleteReadingTemplateEvent',function(e){
                             deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                getReadingTemplateListByUserId().then((result) => {
-                                    let param = new Object();
-                                    param.readingTemplateList = result;
-                                    g_readingTemplateList = result;
-                                    _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
-                                    _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                                });
+                                _this.setReadingTemplateList();
                             });
                         });
 
@@ -450,10 +409,6 @@
                                 _this.$.hhReadingTemplateExpand.getSensitiveTemplateList(param);
                                 _this.$.hhReadingTemplate.getSensitiveTemplateList(param);
                             });
-                        });
-
-                        window.addEventListener('WebComponentsReady', e => {
-                            this.setReadingTemplate();
                         });
                     }
 
@@ -584,6 +539,14 @@
                         }
                     }
 
+                    getOldFilmList(oldfilmList){
+                        if(oldfilmList){
+                            _this.$.allHhReportOldFilm.setOldFilmListBySensitive(oldfilmList);
+                        }else{
+                            _this.$.allHhReportOldFilm.setOldFilmListBySensitive(null);
+                        }
+                    }
+
                     getWorkListNewId(id) {
                         g_objId = id;
 
@@ -618,11 +581,16 @@
                             this.$.allHhReportOldFilm.hiddenOldFilmSensitive();
                             this.$.allHhReportOldFilm.setNewfilmSelectedRow(null);
                         }
-                        getOldFilmWorklist(params).then((result) => {
-                            this.$.allHhReportOldFilm.setOldFilmList(result);
-                        }, (err) => {
-                            console.log(err);
-                        });
+
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.params = params;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('getOldFilmWorklistEvent', param));
+                    }
+
+                    setOldfilmList(oldfilmList){
+                        this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
                     }
 
                     expandingEvent(e) {
@@ -664,7 +632,6 @@
                     //////////////////////////////
                     ////  READING TEMPLATE  ////
                     //////////////////////////////
-
                     setExpandReadingTemplate(){
                         this.setReadingTemplate();
                         //this.$.btnExpand.active == true :: expand
@@ -676,40 +643,44 @@
                         }
                     }
 
-                    setSensitiveForFacility(){
-                        let modalityList = new Array();
-                        let bodypartList = new Array();
+                    setSensitiveForFacility(params){
+                        let modalityList = params.detail.modalityList;
+                        let bodypartList = params.detail.bodypartLIst;
                         let studyDescList = new Array();
-                        getModality().then((result) =>{
-                            modalityList = result;
-                            getBodyPart().then((result) =>{
-                                bodypartList = result;
-                                // TODO : c_case studyDescription 생성 후 수정.
-                                // getStudyDescription().then((result) =>{
-                                //     studyDescList = result;
-                                // console.log(studyDescList);
-                                let param = new Object();
-                                let detail = new Object();
-                                detail.modalityList = modalityList;
-                                detail.bodypartList = bodypartList;
-                                // detail.studyDescList = studyDescList;
-                                param.detail = detail;
-                                this.$.hhReadingTemplate.setSensitiveForFacility(param);
-                                this.$.hhReadingTemplateExpand.setSensitiveForFacility(param);
-                                // });
-                            });
-                        });
+                        let param = new Object();
+                        let detail = new Object();
+
+                        // TODO : c_case studyDescription 생성 후 수정.
+                        // studyDescList = params.studyDescription
+
+                        detail.modalityList = modalityList;
+                        detail.bodypartList = bodypartList;
+                        // detail.studyDescList = studyDescList;
+                        param.detail = detail;
+
+                        this.setReadingTemplate();
+                        this.$.hhReadingTemplate.setSensitiveForFacility(param);
+                        this.$.hhReadingTemplateExpand.setSensitiveForFacility(param);
+                    }
+
+                    setReadingTemplateList(){
+                        if(g_readingTemplateList.length > 0){
+                            let param = new Object();
+                            param.readingTemplateList = result;
+                            g_readingTemplateList = result;
+                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
+                            _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                        }
                     }
 
                     setReadingTemplate(params){
                         if(!params){
-                            getReadingTemplateListByUserId().then((result) => {
+                            if(g_readingTemplateList.length > 0){
                                 let param = new Object();
-                                param.readingTemplateList = result;
-                                g_readingTemplateList = result;
+                                param.readingTemplateList = g_readingTemplateList ;
                                 _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                                 _this.$.hhReadingTemplate.getReadingTemplateList(param);
-                            });
+                            }
                         }else{
                             let param = new Object();
                             param.readingTemplateList = g_readingTemplateList;
@@ -717,6 +688,10 @@
                             _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             _this.$.hhReadingTemplate.getReadingTemplateList(param);
                         }
+                    }
+
+                    setGlobalReadingTemplateList(param){
+                        g_readingTemplateList = param.detail.readingTemplateList;
                     }
 
                     clearReadingTemplateSensitive(){
