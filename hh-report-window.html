@@ -134,7 +134,10 @@
                     Report window
                 </div>
                 <div class="report-setting-patientInfo">
-                    {{patientInfo}}
+                    <template is="dom-if" if="{{patient}}">
+                        {{patient.id}}, {{patient.name}}, {{patient.sex}}, {{patient.age}}
+                    </template>
+
                 </div>
                 <div>
                     <paper-icon-button id="btnPin" noink toggles icon="vaadin:pin" title="pin" on-click="_pin"></paper-icon-button>
@@ -468,9 +471,8 @@
                                 type: String,
                                 value: 0
                             },
-                            patientInfo: {
-                                type: String,
-                                value: "123456, 홍길동, M/30"
+                            patient: {
+                                type: Object
                             },
                             expand: {
                                 type: Boolean,
@@ -802,6 +804,31 @@
 
                     closeScpUsersModal() {
                         this.$.report.closeScpUsersModal();
+                    }
+
+                    setPatinetInfo(patientId, patientName, patientSex, patientAge) {
+                        this.patient = null;    // 기존 patinet 초기화
+
+                        let patient = new Object();
+                        patient.id = this.nvl(patientId, "N/A");
+                        patient.name = this.nvl(patientName, "N/A");
+                        patient.sex = this.nvl(patientSex, "N/A");
+                        patient.age = this.nvl(patientAge, "N/A");
+                        this.patient = patient;
+                    }
+
+                    isEmpty(str) {
+                        if(typeof  str == "undefined" || str == null || str == "")
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    nvl(str, defaultStr) {
+                        if(typeof str =="undefined" || str == null || str == "")
+                            str = defaultStr;
+                        return str;
+
                     }
                 }
 
