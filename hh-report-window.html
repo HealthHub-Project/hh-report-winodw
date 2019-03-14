@@ -666,8 +666,7 @@
                     setReadingTemplateList(){
                         if(g_readingTemplateList.length > 0){
                             let param = new Object();
-                            param.readingTemplateList = result;
-                            g_readingTemplateList = result;
+                            param.readingTemplateList = g_readingTemplateList ;
                             _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             _this.$.hhReadingTemplate.getReadingTemplateList(param);
                         }
