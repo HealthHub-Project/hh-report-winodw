@@ -127,6 +127,34 @@
                 color: #aaaaaa;
             }
 
+            .patientId{
+                width: 65px;
+            }
+            .patientName{
+                width: 40px;
+                margin-left: 3px;
+            }
+            .patientAge{
+                width: 75px;
+                text-align: left;
+                /*margin-left: 3px;*/
+            }
+            .patientSex{
+                width: 13px;
+                margin-left: 3px;
+            }
+
+            input{
+                color: #aaa;
+                height: 12px;
+                font-weight: bold;
+                font-size: 12px;
+                background-color: #252934;
+                border: 0px;
+                align-items: center;
+                text-align: -webkit-center;
+            }
+
         </style>
         <div class="container">
             <div class="container-report-setting">
@@ -135,9 +163,11 @@
                 </div>
                 <div class="report-setting-patientInfo">
                     <template is="dom-if" if="{{patient}}">
-                        {{patient.id}}, {{patient.name}}, {{patient.sex}}, {{patient.age}}
+                        <input class="patientId" value="{{patient.id}}" readonly>
+                        <input class="patientName" value="{{patient.name}}" readonly>
+                        <input class="patientSex" value="{{patient.sex}}" readonly>
+                        <input class="patientAge" value="{{patient.age}}" readonly>
                     </template>
-
                 </div>
                 <div>
                     <paper-icon-button id="btnPin" noink toggles icon="vaadin:pin" title="pin" on-click="_pin"></paper-icon-button>
