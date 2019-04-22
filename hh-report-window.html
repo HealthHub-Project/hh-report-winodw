@@ -382,7 +382,9 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
-                            _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', e));
+                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                _this.setReadingTemplateList();
+                            });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('updateReadingTemplateEvent',function(e){
@@ -395,11 +397,15 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('deleteReadingTemplateEvent',function(e){
-                            _this.dispatchEvent(new CustomEvent('deleteReadingTemplateEvent', e));
+                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                _this.setReadingTemplateList();
+                            });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
-                            _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', e));
+                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                _this.setReadingTemplateList();
+                            });
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('updateReadingTemplateEvent',function(e){
@@ -412,7 +418,9 @@
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('deleteReadingTemplateEvent',function(e){
-                            _this.dispatchEvent(new CustomEvent('deleteReadingTemplateEvent', e));
+                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
+                                _this.setReadingTemplateList();
+                            });
                         });
 
                         this.$.hhReadingTemplate.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
@@ -595,15 +603,16 @@
                     ///////  OLDFILM LIST  ///////
                     //////////////////////////////
 
-                    setAllOldReportList(params) {
+                    setNewFilmSelectedRow(params) {
+
                         let selectedRow = params.selectedRow;
-                        if(!selectedRow.sensitive){
-                            g_SelectedRow = selectedRow;
-                            this.$.allHhReportOldFilm.setNewfilmSelectedRow(g_SelectedRow);
-                        }else{
-                            this.$.allHhReportOldFilm.hiddenOldFilmSensitive();
-                            this.$.allHhReportOldFilm.setNewfilmSelectedRow(null);
-                        }
+                        // if(!selectedRow.sensitive){
+                        g_SelectedRow = selectedRow;
+                        this.$.allHhReportOldFilm.setNewfilmSelectedRow(g_SelectedRow);
+                        // }else{
+                        //     this.$.allHhReportOldFilm.hiddenOldFilmSensitive();
+                        //     this.$.allHhReportOldFilm.setNewfilmSelectedRow(null);
+                        // }
 
                         let param = new Object();
                         let detail = new Object();
@@ -623,12 +632,12 @@
                         if (e.detail.category == "selected") {
                             let result = new Array();
                             result.push(e.detail);
-                            this.$.allHhReportOldFilm.setOldFilmList(result);
+                            this.$.allHhReportOldFilm.seletedPreviousReports(result);
                         } else {
-                            let params = new Object();
-                            params.selectedRow = g_SelectedRow;
+                            // let params = new Object();
+                            // params.selectedRow = g_SelectedRow;
                             this.$.allHhReportOldFilm.clearOldReporListCheckbox();
-                            this.setAllOldReportList(params);
+                            // this.setNewFilmSelectedRow(params);
                         }
                     }
 
@@ -777,6 +786,26 @@
 
                     disabledApproveBtn() {
                         this.$.report.disabledApproveBtn();
+                    }
+
+                    invisibleApproveDiv() {
+                        this.$.report.invisibleApproveDiv();
+                    }
+
+                    visibleApproveDiv() {
+                        this.$.report.visibleApproveDiv();
+                    }
+
+                    changeApproveText(text) {
+                        this.$.report.changeApproveText(text);
+                    }
+
+                    invisibleAddendumDiv() {
+                        this.$.report.invisibleAddendumDiv();
+                    }
+
+                    visibleAddendumDiv() {
+                        this.$.report.visibleAddendumDiv();
                     }
 
                     enabledSaveBtn() {
