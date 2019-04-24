@@ -382,9 +382,7 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('saveReadingTemplateEvent',function(e){
-                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                _this.setReadingTemplateList();
-                            });
+                            _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', e));
                         });
 
                         this.$.hhReadingTemplate.addEventListener('updateReadingTemplateEvent',function(e){
@@ -397,15 +395,11 @@
                         });
 
                         this.$.hhReadingTemplate.addEventListener('deleteReadingTemplateEvent',function(e){
-                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                _this.setReadingTemplateList();
-                            });
+                            _this.dispatchEvent(new CustomEvent('deleteReadingTemplateEvent', e));
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('saveReadingTemplateEvent',function(e){
-                            createReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                _this.setReadingTemplateList();
-                            });
+                            _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', e));
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('updateReadingTemplateEvent',function(e){
@@ -418,9 +412,7 @@
                         });
 
                         this.$.hhReadingTemplateExpand.addEventListener('deleteReadingTemplateEvent',function(e){
-                            deleteUserReadingTemplateByUserId(e.detail.readingTemplate).then((result) => {
-                                _this.setReadingTemplateList();
-                            });
+                            _this.dispatchEvent(new CustomEvent('deleteReadingTemplateEvent', e));
                         });
 
                         this.$.hhReadingTemplate.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
