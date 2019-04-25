@@ -95,10 +95,15 @@
 
             paper-icon-button[active] {
                 color: #d9534f;
+
+            }
+
+            paper-icon-button[disabled] {
+                color: #595959;
             }
 
             paper-icon-button:hover {
-                color: #0087cb;
+                /*color: #0087cb;*/
             }
 
             .class-oldFilmReportSelected{
@@ -292,37 +297,10 @@
                             _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
                         });
 
-                        if (!this.expand) {
-                            this.style.width = '470px';
-                            this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 470px)';
-
-                            this.$.div2.style.display = 'none';
-                            this.$.div3.style.display = 'none';
-                            this.$.div4.style.display = 'none';
-                            this.$.div1.style.width = 'calc(100% - 20px)';
-                            this.$.div5.style.width = 'calc(100% - 20px)';
-
-                            this.$.readingTemplateTab.style.display = 'block';
-                            this.$.readingTemplatePage.style.display = 'block';
-                            this.$.clinicalInfoTab.style.display = 'block';
-                            this.$.clinicalInfoPage.style.display = 'block';
-
+                        if (this.expand) {
+                            this.initExpand();
                         } else {
-                            this.style.width = '1000px';
-                            this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 1000px)';
-
-                            this.$.div2.style.display = 'block';
-                            this.$.div3.style.display = 'block';
-                            this.$.div4.style.display = 'block';
-                            this.$.div1.style.width = '380px';
-                            this.$.div5.style.width = '590px';
-
-                            this.$.readingTemplateTab.style.display = 'none';
-                            this.$.readingTemplatePage.style.display = 'none';
-                            this.$.clinicalInfoTab.style.display = 'none';
-                            this.$.clinicalInfoPage.style.display = 'none';
-
-                            this.$.btnExpand.active = true;
+                            this.initContract();
                         }
 
                         if (this.pin) {
@@ -454,11 +432,13 @@
                             },
                             expand: {
                                 type: Boolean,
-                                value: false
+                                // value: false,
+                                observer: '_expandChanged'
                             },
                             pin: {
                                 type: Boolean,
-                                value: false
+                                observer: '_pinChanged'
+                                // value: false
                             }
                         }
                     }
@@ -468,10 +448,21 @@
                     }
 
                     _pin() {
-
+                        let param = new Object();
+                        param.detail = {
+                            "isPin" : this.$.btnPin.active,
+                            "isExpand" : this.$.btnExpand.active
+                        }
+                        _this.dispatchEvent(new CustomEvent('updateExpandEvent', param));
+                        if (this.$.btnPin.active) {
+                            this.$.btnExpand.disabled = true;
+                        } else {
+                            this.$.btnExpand.disabled = false;
+                        }
                     }
 
                     _expand(e) {
+
                         if(!this.$.btnPin.active) {
                             this.setExpandReadingTemplate();
 
@@ -617,19 +608,20 @@
                         this.$.allHhReportOldFilm.setOldFilmList(oldfilmList);
                     }
 
+
                     expandingEvent(e) {
-                        if (!this.$.btnExpand.active) {
-                            this.$.btnExpand.click();
+                        if(!this.$.btnPin.active) {
+                            if (!this.$.btnExpand.active) {
+                                this.$.btnExpand.click();
+                            }
                         }
+
                         if (e.detail.category == "selected") {
                             let result = new Array();
                             result.push(e.detail);
                             this.$.allHhReportOldFilm.seletedPreviousReports(result);
                         } else {
-                            // let params = new Object();
-                            // params.selectedRow = g_SelectedRow;
                             this.$.allHhReportOldFilm.clearOldReporListCheckbox();
-                            // this.setNewFilmSelectedRow(params);
                         }
                     }
 
@@ -847,6 +839,53 @@
                             str = defaultStr;
                         return str;
 
+                    }
+                    initExpand() {
+                        this.style.width = '1000px';
+                        this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 1000px)';
+
+                        this.$.div2.style.display = 'block';
+                        this.$.div3.style.display = 'block';
+                        this.$.div4.style.display = 'block';
+                        this.$.div1.style.width = '380px';
+                        this.$.div5.style.width = '590px';
+
+                        this.$.readingTemplateTab.style.display = 'none';
+                        this.$.readingTemplatePage.style.display = 'none';
+                        this.$.clinicalInfoTab.style.display = 'none';
+                        this.$.clinicalInfoPage.style.display = 'none';
+
+                        this.$.btnExpand.active = true;
+                    }
+
+                    initContract() {
+                        this.style.width = '470px';
+                        this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 470px)';
+
+                        this.$.div2.style.display = 'none';
+                        this.$.div3.style.display = 'none';
+                        this.$.div4.style.display = 'none';
+                        this.$.div1.style.width = 'calc(100% - 20px)';
+                        this.$.div5.style.width = 'calc(100% - 20px)';
+
+                        this.$.readingTemplateTab.style.display = 'block';
+                        this.$.readingTemplatePage.style.display = 'block';
+                        this.$.clinicalInfoTab.style.display = 'block';
+                        this.$.clinicalInfoPage.style.display = 'block';
+                    }
+
+                    _expandChanged(newValue, oldValue) {
+                        console.log(newValue);
+                        if(newValue) {
+                            this.initExpand();
+                        }
+                    }
+
+                    _pinChanged(newValue, oldValue) {
+                        if(newValue) {
+                            this.$.btnPin.active = true;
+                            this.$.btnExpand.disabled = true;
+                        };
                     }
                 }
 
