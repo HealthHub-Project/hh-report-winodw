@@ -564,7 +564,8 @@
                     getWorkListNewId(id) {
                         g_objId = id;
 
-                        getExamInfo(id).then( resultThumbnail => {
+                        getCaseByIdWithKeyImage(id).then( resultThumbnail => {
+                            console.log(resultThumbnail);
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
 
