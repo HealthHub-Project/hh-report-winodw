@@ -290,6 +290,12 @@
                         });
 
                         this.$.report.addEventListener('btnClickEvent', (e) => {
+                            let reportBtn = e.detail;
+
+                            if(reportBtn === "save" || reportBtn === "approve") {
+                                _this.$.hhImageReport.getStructImage();
+                            }
+
                             _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
                         });
 
@@ -332,24 +338,16 @@
                         });
 
                         // this.$.report.addEventListener('printOpenEvent', function () {
-                        //     _this.$.hhImageReport.getImageReport();
+                        //     _this.$.hhImageReport.getImageReport(); // print 버튼 이벤트 확인
                         // });
-                        //
-                        // this.$.report.addEventListener('saveOpinionEvent', function () {
-                        //     _this.$.hhImageReport.getStructImage();
-                        // });
-                        //
-                        // this.$.report.addEventListener('approveOpinionEvnet', function () {
-                        //     _this.$.hhImageReport.getStructImage();
-                        // });
-                        //
+
                         // this.$.hhImageReport.addEventListener('setImageReportEvent', function (e) {
                         //     _this.$.report.setImageReport(e.detail); // print에 뿌릴 imageReport
                         // });
-                        //
-                        // this.$.hhImageReport.addEventListener('setStructImageEvent', function (e) {
-                        //     _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
-                        // });
+
+                        this.$.hhImageReport.addEventListener('setStructImageEvent', function (e) {
+                            _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
+                        });
 
                         this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
                             _this.setCopyOpinion(e.detail.copiedOpinion);
