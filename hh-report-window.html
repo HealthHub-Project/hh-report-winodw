@@ -292,7 +292,8 @@
                         this.$.report.addEventListener('btnClickEvent', (e) => {
                             let reportBtn = e.detail;
 
-                            if(reportBtn === "save" || reportBtn === "approve") {
+                            if(reportBtn === "save" || reportBtn === "approve" || reportBtn === "addendum") {
+                              
                                 _this.$.hhImageReport.getStructImage();
                             }
 
@@ -344,7 +345,6 @@
                         this.$.hhImageReport.addEventListener('setImageReportEvent', function (e) {
                             _this.dispatchEvent(new CustomEvent('setImageReportEvent', e));
                         });
-
                         this.$.hhImageReport.addEventListener('setStructImageEvent', function (e) {
                             _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
                         });
