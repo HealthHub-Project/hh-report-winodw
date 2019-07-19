@@ -293,6 +293,7 @@
                             let reportBtn = e.detail;
 
                             if(reportBtn === "save" || reportBtn === "approve" || reportBtn === "addendum") {
+                              
                                 _this.$.hhImageReport.getStructImage();
                             }
 
@@ -337,14 +338,13 @@
                             this.getClinicalInfo(ccInfo);
                         });
 
-                        // this.$.report.addEventListener('printOpenEvent', function () {
-                        //     _this.$.hhImageReport.getImageReport(); // print 버튼 이벤트 확인
-                        // });
+                        this.$.report.addEventListener('printOpenEvent', function () {
+                            _this.$.hhImageReport.getImageReport(); // print 버튼 이벤트 확인
+                        });
 
-                        // this.$.hhImageReport.addEventListener('setImageReportEvent', function (e) {
-                        //     _this.$.report.setImageReport(e.detail); // print에 뿌릴 imageReport
-                        // });
-
+                        this.$.hhImageReport.addEventListener('setImageReportEvent', function (e) {
+                            _this.dispatchEvent(new CustomEvent('setImageReportEvent', e));
+                        });
                         this.$.hhImageReport.addEventListener('setStructImageEvent', function (e) {
                             _this.$.report.setStructImage(e.detail); // db에 저장될 imageReport
                         });
@@ -870,6 +870,10 @@
                         this.$.readingTemplatePage.style.display = 'block';
                         this.$.clinicalInfoTab.style.display = 'block';
                         this.$.clinicalInfoPage.style.display = 'block';
+                    }
+
+                    getImageReport(){
+                        this.$.hhImageReport.getImageReport();
                     }
 
                     _expandChanged(newValue, oldValue) {
