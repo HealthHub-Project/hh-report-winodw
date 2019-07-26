@@ -293,7 +293,7 @@
                             let reportBtn = e.detail;
 
                             if(reportBtn === "save" || reportBtn === "approve" || reportBtn === "addendum") {
-                              
+
                                 _this.$.hhImageReport.getStructImage();
                             }
 
@@ -768,6 +768,14 @@
 
                     disabledApproveBtn() {
                         this.$.report.disabledApproveBtn();
+                    }
+
+                    enabledPrintBtn() {
+                        this.$.report.enabledPrintBtn();
+                    }
+
+                    disabledPrintBtn() {
+                        this.$.report.disabledPrintBtn();
                     }
 
                     invisibleApproveDiv() {
