@@ -293,8 +293,8 @@
                             let reportBtn = e.detail;
 
                             if(reportBtn === "save" || reportBtn === "approve" || reportBtn === "addendum") {
-
                                 _this.$.hhImageReport.getStructImage();
+                                _this.$.hhImageReport.getImageReport(); // approve 저장된 image Base64 값을 불러옴
                             }
 
                             _this.dispatchEvent(new CustomEvent('reportBtnClickEvent', e));
