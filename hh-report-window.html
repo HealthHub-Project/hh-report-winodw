@@ -224,7 +224,7 @@
                 <div style="height: calc(100% - 400px); width: 100%; display: flex;justify-content: space-evenly;">
                     <div id="div4" style="height: calc(100% - 15px); width: 380px; padding-top: 5px">
                         <div style="height: 30px; display:flex; align-items: center; margin-bottom: 5px; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
-                            OldFIlm Report LIst
+                            Related Report LIst
                         </div>
                         <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 35px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
                             <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
@@ -566,9 +566,12 @@
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
 
+                    }
+
+                    getStructImageReportById(id){
                         getStructImageById(id).then( structImage => {
-                            _this.$.hhImageReport.setStructImage(structImage);
-                        } )
+                            this.$.hhImageReport.setStructImage(structImage);
+                        });
                     }
 
                     clearThumbnail() {
@@ -723,9 +726,11 @@
 
                     // approve 되어 DB에 저장된 판독문 불러오기
                     setOpinion(opinion) {
-                        this.$.report.findings = opinion.findings;
-                        this.$.report.conclusion = opinion.conclusion;
-                        this.$.report.recommendation = opinion.recommendation;
+                        this.$.report.setOpinion(opinion);
+                        // this.$.report.findings = opinion.findings;
+                        // this.$.report.conclusion = opinion.conclusion;
+                        // this.$.report.recommendation = opinion.recommendation;
+                        // this.$.report.approveInfo.innerHTML = opinion.approver;
                         // this.$.report.radiologist = opinion.radiologist;
                     }
 
@@ -820,6 +825,22 @@
 
                     closeScpUsersModal() {
                         this.$.report.closeScpUsersModal();
+                    }
+
+                    enableAddendumList(){
+                        this.$.report.enableAddendumList();
+                    }
+
+                    disableAddendumList(){
+                        this.$.report.disableAddendumList()
+                    }
+
+                    disabledAddendumAccordionList(){
+                        this.$.report.disabledAddendumAccordionList();
+                    }
+
+                    ableAddendumAccordionList(){
+                        this.$.report.ableAddendumAccordionList();
                     }
 
                     setPatinetInfo(patientId, patientName, patientSex, patientAge) {
