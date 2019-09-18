@@ -3,7 +3,6 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../vaadin-icons/vaadin-icons.html">
-
 <link rel="import" href="../hh-image-report/hh-image-report.html">
 <link rel="import" href="../hh-reading-template/hh-reading-template.html">
 <link rel="import" href="../hh-clinical-info/hh-clinical-info.html">
@@ -66,7 +65,7 @@
             .container-report-setting {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
+                /*justify-content: space-between;*/
                 align-items: center;
                 padding-left: 10px;
                 padding-right: 5px;
@@ -80,10 +79,13 @@
 
             .report-setting-title {
                 color: grey;
+                width: 90px;
             }
 
             .report-setting-patientInfo {
                 color: #aaa;
+                width: calc(100% - 90px);
+                text-align: center;
             }
 
             paper-icon-button {
@@ -175,80 +177,89 @@
                         <input class="patientAge" value="{{patient.age}}" readonly>
                     </template>
                 </div>
-                <div>
-                    <paper-icon-button id="btnPin" noink toggles icon="vaadin:pin" title="pin" on-click="_pin"></paper-icon-button>
-                    <paper-icon-button id="btnExpand" noink toggles icon="vaadin:expand" title="pin" on-click="_expand"></paper-icon-button>
+            </div>
+            <div class="class-windowReport" id="windowReport" style="height:100%; width: 100%;">
+                <div style="display: flex; flex-direction: column; width: 100%; height: 100%">
+                    <div style="height: 400px; width: 100%; display: flex; justify-content: space-evenly;">
+                        <!--PATIENT INFO-->
+                        <div id="div1" style="height: 385px; width: 380px; padding-top: 10px; margin-left: 10px;">
+                            <paper-tabs id="patientInfoTab" selected="{{patientInfoTap}}" noink>
+                                <paper-tab>Thumbnail</paper-tab>
+                                <paper-tab>Image Report</paper-tab>
+                            </paper-tabs>
+                            <paper-tabs id="patientInfoTabNonExpand" selected="{{patientInfoTap}}" noink>
+                                <paper-tab>Thumbnail</paper-tab>
+                                <paper-tab>Image Report</paper-tab>
+                                <paper-tab id="readingTemplateTab">Reading Template</paper-tab>
+                                <paper-tab id="clinicalInfoTab">Clinical Info</paper-tab>
+                            </paper-tabs>
+                            <iron-pages id="reportWindowPage" selected="{{patientInfoTap}}">
+                                <div class="reading-content" style="height: 100%; width: 100%;">
+                                    <div id="divhhThumbnail" style="height: 355px; width: 380px; margin-left: auto; margin-right: auto;">
+                                        <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
+                                    </div>
+                                </div>
+                                <div class="reading-content" style="height: 100%; width: 100%;">
+                                    <div id="divhhImageReport" style="height: 355px; width: 380px; margin-left: auto; margin-right: auto;">
+                                        <hh-image-report id="hhImageReport" style="height: 100%; width: 100%;"></hh-image-report>
+                                    </div>
+                                </div>
+                                <div id="readingTemplatePage" style="height: 100%">
+                                    <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
+                                </div>
+                                <div id="clinicalInfoPage" style="height: 100%">
+                                    <hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>
+                                </div>
+                            </iron-pages>
+                        </div>
+                        <div id="divPatientInfo" style="height: 385px; width: calc(100% - 380px); display: flex;">
+                            <div id="div2" style="height: 100%; width: calc(50% - 10px); padding-top: 10px; display: flex; flex-direction: column; margin: 0 5px 0 5px;">
+                                <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                                    Clinical Info
+                                </div>
+                                <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                                    <hh-clinical-info id="hhClinicalInfoExpend"></hh-clinical-info>
+                                </div>
+                            </div>
+                            <div id="div3" style="height: 100%; width: calc(50% - 10px); padding-top: 10px; display: flex; flex-direction: column;">
+                                <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                                    Reading Template
+                                </div>
+                                <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                                    <hh-reading-template id="hhReadingTemplateExpand"></hh-reading-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--OPINION-->
+                    <div style="height: calc(100% - 400px); width: 100%; display: flex;justify-content: space-evenly;">
+                        <div id="div4" style="height: calc(100% - 15px); width: 385px; padding-top: 5px; margin-left:10px;">
+                            <div style="height: 30px; display:flex; align-items: center; margin-bottom: 5px; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
+                                Related Report LIst
+                            </div>
+                            <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 35px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                                <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
+                            </div>
+                        </div>
+                        <div id="div5" style="height: calc(100% - 15px); width: calc(100% - 390px); padding-top: 5px; margin:0 10px 0 5px;">
+                            <paper-tabs selected="{{selectedBottomNew}}" noink>
+                                <paper-tab>Report</paper-tab>
+                                <paper-tab disabled>Structured Reporting</paper-tab>
+                                <paper-tab disabled>Dictation</paper-tab>
+                                <paper-tab disabled>Transcription</paper-tab>
+                            </paper-tabs>
+                            <iron-pages selected="{{selectedBottomNew}}">
+                                <div style="height: 100%; width: 100%;">
+                                    <hh-report id="report"></hh-report>
+                                </div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </iron-pages>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style="display: flex; flex-direction: column; width: 100%; height: 100%">
-                <div style="height: 400px; width: 100%; display: flex; justify-content: space-evenly;">
-                    <div id="div1" style="height: 385px; width: 380px; padding-top: 10px">
-                        <paper-tabs selected="{{selectedTop}}" noink>
-                            <paper-tab>Thumbnail</paper-tab>
-                            <paper-tab>Image Report</paper-tab>
-                            <paper-tab id="readingTemplateTab">Reading Template</paper-tab>
-                            <paper-tab id="clinicalInfoTab">Clinical Info</paper-tab>
-                        </paper-tabs>
-                        <iron-pages id="reportWindowPage" selected="{{selectedTop}}">
-                            <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-thumbnail id="hhThumbnail"></hh-thumbnail>
-                            </div>
-                            <div class="reading-content" style="height: 100%; width: 100%;">
-                                <hh-image-report id="hhImageReport" style="height: 355px; width: 100%;"></hh-image-report>
-                            </div>
-                            <div id="readingTemplatePage" style="height: 100%">
-                                <hh-reading-template id="hhReadingTemplate"></hh-reading-template>
-                            </div>
-                            <div id="clinicalInfoPage" style="height: 100%">
-                                <hh-clinical-info id="hhClinicalInfo"></hh-clinical-info>
-                            </div>
-                        </iron-pages>
-                    </div>
-                    <div id="div2" style="height: 385px; width: 250px; padding-top: 10px; display: flex; flex-direction: column;">
-                        <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
-                            Clinical Info
-                        </div>
-                        <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-clinical-info id="hhClinicalInfoExpend"></hh-clinical-info>
-                        </div>
-                    </div>
-                    <div id="div3" style="height: 385px; width: 330px; padding-top: 10px; display: flex; flex-direction: column;">
-                        <div style="height: 30px; display:flex; align-items: center; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
-                            Reading Template
-                        </div>
-                        <div style="background-color: rgba(0,0,0,0.15); height: 355px;border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-reading-template id="hhReadingTemplateExpand"></hh-reading-template>
-                        </div>
-                    </div>
-                </div>
-                <div style="height: calc(100% - 400px); width: 100%; display: flex;justify-content: space-evenly;">
-                    <div id="div4" style="height: calc(100% - 15px); width: 380px; padding-top: 5px">
-                        <div style="height: 30px; display:flex; align-items: center; margin-bottom: 5px; padding-left: 10px;background-color: #252934;font-weight: bold;font-size: 12px;box-shadow: 0px 3px 9px -2px #000000; color: #aaaaaa; font-size: 13px;">
-                            Related Report LIst
-                        </div>
-                        <div id="oldfilmList" style="background-color: rgba(0,0,0,0.15); height: calc(100% - 35px); border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
-                            <hh-report-oldFilm id="allHhReportOldFilm"></hh-report-oldFilm>
-                        </div>
-                    </div>
-                    <div id="div5" style="height: calc(100% - 15px); width: 590px; padding-top: 5px">
-                        <paper-tabs selected="{{selectedBottomNew}}" noink>
-                            <paper-tab>Report</paper-tab>
-                            <paper-tab disabled>Structured Reporting</paper-tab>
-                            <paper-tab disabled>Dictation</paper-tab>
-                            <paper-tab disabled>Transcription</paper-tab>
-                        </paper-tabs>
-                        <iron-pages selected="{{selectedBottomNew}}">
-                            <div style="height: 100%; width: 100%;">
-                                <hh-report id="report"></hh-report>
-                            </div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </iron-pages>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </template>
 
@@ -256,6 +267,8 @@
         /**
          * `hh-report-window`
          *
+         * @Version 1.0.1
+         * @Date
          *
          * @customElement
          * @polymer
@@ -270,6 +283,10 @@
                     isErr: false
                 };
                 let g_SelectedRow = new Object(); // newFilm Selected Row
+
+                let g_nonExpandIndex = null; // 확장한 상태의 tab index
+                let g_expandIndex = null; // 비확장된 상태의 tab index
+
                 let _this;
 
                 class HhReportWindow extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element) {
@@ -304,16 +321,6 @@
                             _this.dispatchEvent(new CustomEvent('consultToBtnClickEvent', e));
                         });
 
-                        if (this.expand) {
-                            this.initExpand();
-                        } else {
-                            this.initContract();
-                        }
-
-                        if (this.pin) {
-                            this.$.btnPin.active = true;
-                        }
-
                         this.$.reportWindowPage.addEventListener('iron-select', e => {
                             if (e.detail.item.className === "reading-content iron-selected") {
                                 this.$.hhImageReport.onLoadBody();
@@ -333,6 +340,14 @@
                             _this.dispatchEvent(new CustomEvent('setSelectedSeriesInfoEvent', e));
                         });
 
+                        // this.$.hhThumbnailExpand.addEventListener('toastEvent', function (e) {
+                        //     _this.dispatchEvent(new CustomEvent('toastEvent', e));
+                        // });
+
+                        // this.$.hhThumbnailExpand.addEventListener('setSelectedSeriesInfoEvent', function (e) {
+                        //     _this.dispatchEvent(new CustomEvent('setSelectedSeriesInfoEvent', e));
+                        // });
+
                         this.$.hhClinicalInfo.addEventListener("clinicalInfoSaveEvent", e => {
                             let ccInfo = e.detail;
                             this.getClinicalInfo(ccInfo);
@@ -350,7 +365,7 @@
                         });
 
                         this.$.allHhReportOldFilm.addEventListener('copiedOldfilmOpinion',function (e) {
-                            _this.setCopyOpinion(e.detail.copiedOpinion);
+                            if(g_SelectedRow.readingStatus != "3A") _this.setCopyOpinion(e.detail.copiedOpinion);
                         });
 
                         this.$.allHhReportOldFilm.addEventListener('oldfilmSensitiveEvent',function (e) {
@@ -400,7 +415,6 @@
                             });
 
                         });
-
                         this.$.hhReadingTemplateExpand.addEventListener('getReadingTemplateListBySensitiveEvent',function(e){
                             getReadingTemplateListBySensitive(e.detail).then((result)=>{
                                 let param = new Object();
@@ -409,11 +423,26 @@
                                 _this.$.hhReadingTemplate.getSensitiveTemplateList(param);
                             });
                         });
+
+                        this.$.patientInfoTab.addEventListener('click',function(e){
+                            let param = new Object();
+                            param.detail = e.currentTarget.selected;
+                            _this.dispatchEvent(new CustomEvent('hhReportWindowTabIndexChangeEvent', param));
+                        });
+                        this.$.patientInfoTabNonExpand.addEventListener('click',function(e){
+                            let param = new Object();
+                            param.detail = e.currentTarget.selected;
+                            _this.dispatchEvent(new CustomEvent('hhReportWindowTabIndexChangeEvent', param));
+                        })
                     }
 
                     static get properties() {
                         return {
                             selectedTop: {
+                                type: String,
+                                value: 0
+                            },
+                            patientInfoTap:{
                                 type: String,
                                 value: 0
                             },
@@ -427,16 +456,6 @@
                             },
                             patient: {
                                 type: Object
-                            },
-                            expand: {
-                                type: Boolean,
-                                // value: false,
-                                observer: '_expandChanged'
-                            },
-                            pin: {
-                                type: Boolean,
-                                observer: '_pinChanged'
-                                // value: false
                             }
                         }
                     }
@@ -445,109 +464,17 @@
                         parentWidth = this.parentNode.offsetWidth;
                     }
 
-                    _pin() {
-                        let param = new Object();
-                        param.detail = {
-                            "isPin" : this.$.btnPin.active,
-                            "isExpand" : this.$.btnExpand.active
-                        }
-                        _this.dispatchEvent(new CustomEvent('updateExpandEvent', param));
-                        if (this.$.btnPin.active) {
-                            this.$.btnExpand.disabled = true;
-                        } else {
-                            this.$.btnExpand.disabled = false;
-                        }
-                    }
-
-                    _expand(e) {
-
-                        if(!this.$.btnPin.active) {
-                            this.setExpandReadingTemplate();
-
-                            let selectedTop = this.selectedTop;
-                            this.selectedTop = null;
-
-                            let leftDiv = this.parentNode.querySelector('#worklistLeftDiv');
-                            let rightDiv = this;
-
-                            let expandRightDiv = [
-                                {width: rightDiv.offsetWidth + 'px'},
-                                {width: '1000px'}
-                            ];
-
-                            let contractLeftDiv = [
-                                {width: (parentWidth - rightDiv.offsetWidth) + 'px'},
-                                {width: (parentWidth - 1000) + 'px'}
-                            ];
-
-                            let contractRightDiv = [
-                                {width: rightDiv.offsetWidth + 'px'},
-                                {width: '470px'}
-                            ];
-
-                            let expandLeftDiv = [
-                                {width: (parentWidth - rightDiv.offsetWidth) + 'px'},
-                                {width: (parentWidth - 470) + 'px'}
-                            ];
-
-                            let duration = 500;
-
-                            if (e.target.active) {
-                                let animation = rightDiv.animate(expandRightDiv, {
-                                    duration: duration,
-                                    fill: 'forwards'
-                                });
-
-                                animation.onfinish = () => {
-                                    this.$.div2.style.display = 'block';
-                                    this.$.div3.style.display = 'block';
-                                    this.$.div4.style.display = 'block';
-                                    this.$.div1.style.width = '380px';
-                                    this.$.div5.style.width = '590px';
-
-                                    this.$.readingTemplateTab.style.display = 'none';
-                                    this.$.readingTemplatePage.style.display = 'none';
-                                    this.$.clinicalInfoTab.style.display = 'none';
-                                    this.$.clinicalInfoPage.style.display = 'none';
-
-                                    if (selectedTop == 2 || selectedTop == 3) {
-                                        this.selectedTop = 0;
-                                    } else {
-                                        this.selectedTop = selectedTop;
-                                    }
-                                };
-
-                                leftDiv.animate(contractLeftDiv, {
-                                    duration: duration,
-                                    fill: 'forwards'
-                                });
-
-                            } else {
-                                this.$.readingTemplateTab.style.display = 'block';
-                                this.$.readingTemplatePage.style.display = 'block';
-                                this.$.clinicalInfoTab.style.display = 'block';
-                                this.$.clinicalInfoPage.style.display = 'block';
-
-                                this.$.div2.style.display = 'none';
-                                this.$.div3.style.display = 'none';
-                                this.$.div4.style.display = 'none';
-                                this.$.div1.style.width = 'calc(100% - 20px)';
-                                this.$.div5.style.width = 'calc(100% - 20px)';
-
-                                let animation = rightDiv.animate(contractRightDiv, {
-                                    duration: duration,
-                                    fill: 'forwards'
-                                });
-
-                                animation.onfinish = () => {
-                                    this.selectedTop = selectedTop;
-                                };
-
-                                leftDiv.animate(expandLeftDiv, {
-                                    duration: duration,
-                                    fill: 'forwards'
-                                });
-                            }
+                    setTabIndex(tabIndex, expand){
+                        if(expand == 0){
+                            g_expandIndex = tabIndex.hhReportWindowExpand;
+                            this.$.patientInfoTab.selected = tabIndex.hhReportWindowExpand;
+                        }else if(expand == 1) {
+                            g_nonExpandIndex = tabIndex.hhReportWindowNonExpand;
+                            this.$.patientInfoTabNonExpand.selected = tabIndex.hhReportWindowNonExpand;
+                        }else if(expand == 3){
+                            g_expandIndex = tabIndex;
+                        }else if(expand ==4){
+                            g_nonExpandIndex = tabIndex;
                         }
                     }
 
@@ -649,11 +576,11 @@
                     //////////////////////////////
                     ////  READING TEMPLATE  ////
                     //////////////////////////////
-                    setExpandReadingTemplate(){
+                    setExpandReadingTemplate(flag){
                         this.setReadingTemplate();
                         //this.$.btnExpand.active == true :: expand
                         //this.$.btnExpand.active == false :: shorted
-                        if(this.$.btnExpand.active ){
+                        if(flag){
                             this.$.hhReadingTemplateExpand.setSensitiveChectedExpand(this.$.hhReadingTemplate.selectSensitive);
                         }else{
                             this.$.hhReadingTemplate.setSensitiveChectedExpand(this.$.hhReadingTemplateExpand.selectSensitive);
@@ -684,8 +611,8 @@
                         if(g_readingTemplateList.length > 0){
                             let param = new Object();
                             param.readingTemplateList = g_readingTemplateList ;
-                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                         }
                     }
 
@@ -694,15 +621,15 @@
                             if(g_readingTemplateList.length > 0){
                                 let param = new Object();
                                 param.readingTemplateList = g_readingTemplateList ;
-                                _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                                 _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                                _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             }
                         }else{
                             let param = new Object();
                             param.readingTemplateList = g_readingTemplateList;
                             param.selectedRow = params.selectedRow;
-                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                             _this.$.hhReadingTemplate.getReadingTemplateList(param);
+                            _this.$.hhReadingTemplateExpand.getReadingTemplateList(param);
                         }
                     }
 
@@ -811,6 +738,14 @@
                         this.$.report.disabledSaveBtn();
                     }
 
+                    enabledClearBtn() {
+                        this.$.report.enabledClearBtn();
+                    }
+
+                    disabledClearBtn() {
+                        this.$.report.disabledClearBtn();
+                    }
+
                     clearOpinion() {
                         this.$.report.initTextArea();
                     }
@@ -845,7 +780,6 @@
 
                     setPatinetInfo(patientId, patientName, patientSex, patientAge) {
                         this.patient = null;    // 기존 patinet 초기화
-
                         let patient = new Object();
                         patient.id = this.nvl(patientId, "N/A");
                         patient.name = this.nvl(patientName, "N/A");
@@ -867,56 +801,70 @@
                         return str;
 
                     }
-                    initExpand() {
-                        this.style.width = '1000px';
-                        this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 1000px)';
-
-                        this.$.div2.style.display = 'block';
-                        this.$.div3.style.display = 'block';
-                        this.$.div4.style.display = 'block';
-                        this.$.div1.style.width = '380px';
-                        this.$.div5.style.width = '590px';
-
-                        this.$.readingTemplateTab.style.display = 'none';
-                        this.$.readingTemplatePage.style.display = 'none';
-                        this.$.clinicalInfoTab.style.display = 'none';
-                        this.$.clinicalInfoPage.style.display = 'none';
-
-                        this.$.btnExpand.active = true;
-                    }
-
-                    initContract() {
-                        this.style.width = '470px';
-                        this.parentNode.querySelector('#worklistLeftDiv').style.width = 'calc(100% - 470px)';
-
-                        this.$.div2.style.display = 'none';
-                        this.$.div3.style.display = 'none';
-                        this.$.div4.style.display = 'none';
-                        this.$.div1.style.width = 'calc(100% - 20px)';
-                        this.$.div5.style.width = 'calc(100% - 20px)';
-
-                        this.$.readingTemplateTab.style.display = 'block';
-                        this.$.readingTemplatePage.style.display = 'block';
-                        this.$.clinicalInfoTab.style.display = 'block';
-                        this.$.clinicalInfoPage.style.display = 'block';
-                    }
 
                     getImageReport(){
                         this.$.hhImageReport.getImageReport();
                     }
 
-                    _expandChanged(newValue, oldValue) {
-                        // console.log(newValue);
-                        if(newValue) {
-                            this.initExpand();
+                    setExpand(){
+                        this.$.div2.style.display = 'block';
+                        this.$.div3.style.display = 'block';
+                        this.$.div4.style.display = 'block';
+                        this.$.div1.style.width = '380px';
+                        this.$.div5.style.width = 'calc(100% - 390px)';
+                        this.$.div1.style.marginLeft =  "10px";
+
+                        this.$.patientInfoTab.style.display = "block";
+                        this.$.patientInfoTabNonExpand.style.display = "none";
+
+                        // this.$.readingTemplateTab.style.display = 'none';
+                        this.$.readingTemplatePage.style.display = 'none';
+                        // this.$.clinicalInfoTab.style.display = 'none';
+                        this.$.clinicalInfoPage.style.display = 'none';
+
+                        this.$.divhhImageReport.style.width = "380px";
+                        this.$.divhhThumbnail.style.width = "380px";
+
+                        this.$.divPatientInfo.style.display = "flex";
+                        this.$.hhImageReport.onLoadBody();
+
+                        if(g_expandIndex){
+                            this.$.patientInfoTab.selected = g_expandIndex;
+                        } else{
+                            this.$.patientInfoTab.selected = 0;
                         }
+
+
+                        this.setExpandReadingTemplate(true);
                     }
 
-                    _pinChanged(newValue, oldValue) {
-                        if(newValue) {
-                            this.$.btnPin.active = true;
-                            this.$.btnExpand.disabled = true;
-                        };
+                    setNonExpand(){
+                        this.$.div2.style.display = 'none';
+                        this.$.div3.style.display = 'none';
+                        this.$.div4.style.display = 'none';
+                        this.$.div1.style.width = 'calc(100% - 20px)';
+                        this.$.div5.style.width = 'calc(100% - 20px)';
+                        this.$.div1.style.marginLeft = "0px";
+
+                        this.$.readingTemplatePage.style.display = 'block';
+                        this.$.clinicalInfoPage.style.display = 'block';
+
+                        this.$.patientInfoTab.style.display = "none";
+                        this.$.patientInfoTabNonExpand.style.display = "block";
+
+                        this.$.divhhImageReport.style.width = "430px";
+                        this.$.divhhThumbnail.style.width = "450px";
+
+                        this.$.divPatientInfo.style.display = "none";
+                        this.$.hhImageReport.onLoadBody();
+
+                        if(g_nonExpandIndex){
+                            this.$.patientInfoTabNonExpand.selected = g_nonExpandIndex;
+                        } else{
+                            this.$.patientInfoTabNonExpand.selected = 0;
+                        }
+
+                        this.setExpandReadingTemplate();
                     }
 
                     _btnExpandEvent(){
