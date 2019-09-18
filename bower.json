@@ -1,7 +1,7 @@
 {
   "name": "hh-report-window",
   "main": "hh-report-window.html",
-  "version":"1.0.0",
+  "version":"1.0.1",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "hh-reading-template": "*",
