@@ -486,13 +486,11 @@
                         }
                     }
 
-                    getWorkListNewId(id) {
+                    setThumbnail(id) {
                         g_objId = id;
-
                         getCaseByIdWithKeyImage(id).then( resultThumbnail => {
                             this.$.hhThumbnail.setExambyId(id, resultThumbnail);
                         });
-
                     }
 
                     getStructImageReportById(id){
