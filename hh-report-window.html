@@ -178,7 +178,7 @@
                     </template>
                 </div>
             </div>
-            <div class="class-windowReport" id="windowReport" style="height:calc(100% - 24px); width: 100%;">
+            <div class="class-windowReport" id="windowReport" style="height:calc(100% - 25px); width: 100%;">
                 <div style="display: flex; flex-direction: column; width: 100%; height: 100%">
                     <div style="height: 400px; width: 100%; display: flex; justify-content: space-evenly;">
                         <!--PATIENT INFO-->
@@ -424,6 +424,14 @@
                             });
                         });
 
+                        this.$.hhReadingTemplate.addEventListener('doubleClickEventReadingTemplate',function (e) {
+                            if(g_SelectedRow != null && Object.keys(g_SelectedRow).length > 0 && g_SelectedRow.readingStatus != "3A") _this.setCopyOpinion(e.detail.opinion);
+                        });
+
+                        this.$.hhReadingTemplateExpand.addEventListener('doubleClickEventReadingTemplate',function (e) {
+                            if(g_SelectedRow != null && Object.keys(g_SelectedRow).length > 0 && g_SelectedRow.readingStatus != "3A") _this.setCopyOpinion(e.detail.opinion);
+                        });
+
                         this.$.patientInfoTab.addEventListener('click',function(e){
                             let param = new Object();
                             param.detail = e.currentTarget.selected;
@@ -532,6 +540,10 @@
                         detail.params = params;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('getOldFilmWorklistEvent', param));
+                    }
+
+                    clearSelectedRow(){
+                        g_SelectedRow = {};
                     }
 
                     setOldfilmList(oldfilmList, id){
@@ -778,6 +790,11 @@
 
                     ableAddendumAccordionList(){
                         this.$.report.ableAddendumAccordionList();
+                    }
+
+                    clearSelectedRowToWindowReport(){
+                        this.$.hhReadingTemplate.clearSelectedRow();
+                        this.$.hhReadingTemplateExpand.clearSelectedRow();
                     }
 
                     setPatinetInfo(patientId, patientName, patientSex, patientAge) {
