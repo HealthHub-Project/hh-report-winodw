@@ -4,7 +4,7 @@
   "version":"1.0.2",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "hh-reading-template": "hh-reading-template#1.0.2.1",
+    "hh-reading-template": "*",
     "hh-clinical-info": "*",
     "hh-thumbnail": "*",
     "hh-report": "*",
