@@ -681,14 +681,16 @@
 
                     // 입력된 판독문에 추가 판독문 입력하기
                     setCopyOpinion(opinion){
-                        if(opinion.finding){
-                            _this.$.report.findings += opinion.finding;
-                        }
-                        if(opinion.conclusion){
-                            _this.$.report.conclusion += opinion.conclusion;
-                        }
-                        if(opinion.recommendation){
-                            _this.$.report.recommendation += opinion.recommendation;
+                        if(this.$.report.isActiveApproveContent()) {
+                            if(opinion.finding){
+                                _this.$.report.findings += opinion.finding;
+                            }
+                            if(opinion.conclusion){
+                                _this.$.report.conclusion += opinion.conclusion;
+                            }
+                            if(opinion.recommendation){
+                                _this.$.report.recommendation += opinion.recommendation;
+                            }
                         }
                     }
 
